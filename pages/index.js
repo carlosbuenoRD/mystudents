@@ -1,3 +1,10 @@
+//Components
+import Layout from '@components/Layout/Layout'
+
 export default function Home() {
-  return <p className='text-lg text-green'>Home</p>
+  return (
+    <Layout>
+      <h1 className='text-lg'>Home</h1>
+    </Layout>
+  )
 }
