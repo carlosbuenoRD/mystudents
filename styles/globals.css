@@ -2,4 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('./modal.css')
+@import url('./modal.css');
+
+::-webkit-scrollbar {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  height: 8px;
+  width: 4px;
+  border-radius: 20px;
+}
+
+* {
+  @apply
+  text-slate-700
+}

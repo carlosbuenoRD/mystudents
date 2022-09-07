@@ -24,7 +24,7 @@ function Navbar() {
           } top-0 bottom-0 right-0 bg-green-50 md:bg-white md:pt-0 md:text-lg md:w-fit md:flex-row`}
         >
           <li className='mx-8 md:mx-0'>
-            <Link href={'/list'} passHref>
+            <Link href={'/checklist'} passHref>
               <a className='cursor-pointer flex items-center hover:bg-orange-300 transition-all p-2 rounded-lg'>
                 <BsListCheck className='mr-2 -mb-1' size={20} />
                 Lista
