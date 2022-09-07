@@ -1,0 +1,38 @@
+.modal_overlay {
+  z-index: 100;
+  position: absolute;
+  display: grid;
+  place-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.modal_card {
+  background-color: white;
+  padding: 10px 12px;
+  border-radius: 12px;
+  min-width: 400px;
+}
+
+.modal_card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 4px;
+}
+
+.modal_card__body {
+  margin: 12px 0
+}
+
+.modal_card__footer {
+  display: flex;
+  justify-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 4px;
+}
