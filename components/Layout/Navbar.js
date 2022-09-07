@@ -13,7 +13,9 @@ function Navbar() {
   return (
     <header className='h-20 shadow-md'>
       <nav className='px-2 sm:px-0 container m-auto flex items-center justify-between h-full xl:px-12'>
-        <h1 className='font-bold text-xl z-50'>MyStudents</h1>
+        <Link href={'/'} passHref>
+          <a className='font-bold text-xl z-50'>MyStudents</a>
+        </Link>
 
         <ul
           className={`fixed md:relative transition-all flex flex-col md:flex-row text-2xl pt-20 ${
