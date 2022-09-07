@@ -6,6 +6,7 @@ import { BsDoorClosed } from 'react-icons/bs'
 import { FaUserGraduate } from 'react-icons/fa'
 import { BsListCheck } from 'react-icons/bs'
 import { GiHamburgerMenu } from 'react-icons/gi'
+import { GrNotes } from 'react-icons/gr'
 
 function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false)
@@ -35,6 +36,14 @@ function Navbar() {
               <a className='cursor-pointer flex items-center hover:bg-orange-300 transition-all p-2 rounded-lg'>
                 <FaUserGraduate className='mr-2' />
                 Estudiantes
+              </a>
+            </Link>
+          </li>
+          <li>
+            <Link href={'/calificaciones'} passHref>
+              <a className='cursor-pointer flex items-center hover:bg-orange-300 transition-all p-2 rounded-lg'>
+                <GrNotes className='mr-2' />
+                Calificaciones
               </a>
             </Link>
           </li>
