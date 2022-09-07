@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useCTX, useStudentDispatch } from '../hooks/useContextHook'
 
 // Components
 import Layout from '@components/Layout/Layout'
@@ -12,6 +13,14 @@ import Confirmation from '@components/Confirmation'
 
 function Students() {
   const [show, setShow] = useState(false)
+  const state = useCTX()
+  const { getAll } = useStudentDispatch()
+
+  console.log(state)
+
+  useEffect(() => {
+    getAll()
+  }, [])
 
   return (
     <Layout title={'Students'}>
