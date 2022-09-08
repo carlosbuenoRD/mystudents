@@ -1,5 +1,6 @@
 import nc from 'next-connect'
 import { connect, disconnect } from '@utils/db'
+import { subjects } from '@utils/data'
 import response from '@utils/response'
 import { Student, Calification } from '@models/students'
 
@@ -32,6 +33,9 @@ handler.post(async (req, res) => {
       )
     }
     const newStudent = await Student.create(req.body)
+    subjects.forEach(async (s) => {
+      await Calification.create({ student: newStudent._id, subject: s })
+    })
     await disconnect()
     response(res, 201, newStudent)
   } catch (error) {

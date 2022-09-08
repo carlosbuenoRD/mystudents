@@ -44,7 +44,7 @@ handler.delete(async (req, res) => {
     await connect()
     await Student.findByIdAndDelete(req.query.id)
     await disconnect()
-    response(res, 204, '')
+    response(res, 204)
   } catch (error) {
     res.json(error.message)
   }

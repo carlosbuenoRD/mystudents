@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useStudentDispatch } from '../../hooks/useContextHook'
 import ReactDom from 'react-dom'
 
 // Icons
@@ -9,6 +10,8 @@ function ViewStudent({ show, onClose, student }) {
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
   const [classroom, setClassRoom] = useState('')
+
+  const { updateStudent } = useStudentDispatch()
 
   useEffect(() => {
     setIsBrowser(true)
@@ -21,6 +24,11 @@ function ViewStudent({ show, onClose, student }) {
     setClassRoom(student.classroom)
     setName(student.name)
     setLastname(student.lastname)
+  }
+
+  const handleUpdateStudent = () => {
+    updateStudent({ _id: student._id, name, lastname, classroom })
+    onClose()
   }
 
   const content = show ? (
@@ -71,7 +79,10 @@ function ViewStudent({ show, onClose, student }) {
           <div></div>
         </div>
         <div className='modal_card__footer'>
-          <button className='border-2 border-green-500 w-1/2 py-1 rounded-md mr-2'>
+          <button
+            onClick={handleUpdateStudent}
+            className='border-2 border-green-500 w-1/2 py-1 rounded-md mr-2'
+          >
             Actualizar
           </button>
           <button className='border-2 border-red-500 w-1/2 py-1 rounded-md mr-2'>

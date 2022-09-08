@@ -8,6 +8,7 @@ export const DispatchContext = createContext()
 
 const initialState = {
   students: [],
+  califications: [],
 }
 
 function ContextProvider({ children }) {

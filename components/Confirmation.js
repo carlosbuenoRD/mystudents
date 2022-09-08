@@ -4,12 +4,17 @@ import ReactDom from 'react-dom'
 // Icons
 import { AiOutlineClose } from 'react-icons/ai'
 
-function Confirmation({ show, onClose, success, text }) {
+function Confirmation({ show, onClose, success, text, onConfirm }) {
   const [isBrowser, setIsBrowser] = useState(false)
 
   useEffect(() => {
     setIsBrowser(true)
   }, [])
+
+  const handleConfirm = () => {
+    onConfirm()
+    onClose()
+  }
 
   const content = show ? (
     <div className={'modal_overlay'}>
@@ -28,6 +33,7 @@ function Confirmation({ show, onClose, success, text }) {
         </div>
         <div className='modal_card__footer'>
           <button
+            onClick={handleConfirm}
             className={`border-2 w-1/2 py-1 rounded-md mr-2 ${
               success ? 'border-green-500' : 'border-red-500'
             }`}

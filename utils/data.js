@@ -47,3 +47,19 @@ export const students = [
 ]
 
 export const classrooms = new Set(students.map((i) => i.classroom))
+
+export const subjects = [
+  'Lengua Española',
+  'Matematicas',
+  'Ciencias Sociales',
+  'Ciencias Naturales',
+]
+
+export const calificationSubjects = [
+  { title: 'notebook', max: 10 },
+  { title: 'homework', max: 20 },
+  { title: 'practice', max: 20 },
+  { title: 'participation', max: 10 },
+  { title: 'test', max: 30 },
+  { title: 'conduct', max: 10 },
+]

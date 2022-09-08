@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useStudentDispatch } from '../../hooks/useContextHook'
 import ReactDom from 'react-dom'
 
 // Icons
@@ -6,10 +7,23 @@ import { AiOutlineClose } from 'react-icons/ai'
 
 function CreateStudent({ show, onClose }) {
   const [isBrowser, setIsBrowser] = useState(false)
+  const [name, setName] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [classroom, setClassRoom] = useState('')
+
+  const { createStudent } = useStudentDispatch()
 
   useEffect(() => {
     setIsBrowser(true)
   }, [])
+
+  const handleCreateStudent = () => {
+    createStudent({ name, lastname, classroom })
+    onClose()
+    setName('')
+    setLastname('')
+    setClassRoom('')
+  }
 
   const content = show ? (
     <div className={'modal_overlay'}>
@@ -32,6 +46,8 @@ function CreateStudent({ show, onClose }) {
               <input
                 type={'text'}
                 className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className='flex flex-col my-2'>
@@ -39,6 +55,8 @@ function CreateStudent({ show, onClose }) {
               <input
                 type={'text'}
                 className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
               />
             </div>
             <div className='flex flex-col'>
@@ -46,12 +64,17 @@ function CreateStudent({ show, onClose }) {
               <input
                 type={'text'}
                 className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                value={classroom}
+                onChange={(e) => setClassRoom(e.target.value)}
               />
             </div>
           </form>
         </div>
         <div className='modal_card__footer'>
-          <button className='border-2 border-green-500 w-1/2 py-1 rounded-md mr-2'>
+          <button
+            onClick={handleCreateStudent}
+            className='border-2 border-green-500 w-1/2 py-1 rounded-md mr-2'
+          >
             Agregar
           </button>
           <button className='border-2 border-red-500 w-1/2 py-1 rounded-md mr-2'>

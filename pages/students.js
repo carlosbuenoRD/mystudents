@@ -13,10 +13,9 @@ import Confirmation from '@components/Confirmation'
 
 function Students() {
   const [show, setShow] = useState(false)
-  const state = useCTX()
+  const [search, setSearch] = useState('')
+  const { students } = useCTX()
   const { getAll } = useStudentDispatch()
-
-  console.log(state)
 
   useEffect(() => {
     getAll()
@@ -25,7 +24,7 @@ function Students() {
   return (
     <Layout title={'Students'}>
       <div className='my-4 flex justify-between items-center'>
-        <SearchInput />
+        <SearchInput input={search} setInput={setSearch} />
         <button
           onClick={() => setShow(true)}
           className='border-2 opacity-70 text-slate-700 p-2 rounded-full hover:opacity-100 hover:shadow-md'
@@ -33,7 +32,13 @@ function Students() {
           <TiUserAdd size={25} />
         </button>
       </div>
-      <StudentsTable />
+      <StudentsTable
+        students={students.filter(
+          (i) =>
+            i.name.toLowerCase().includes(search.toLowerCase()) ||
+            i.lastname.toLowerCase().includes(search.toLowerCase())
+        )}
+      />
       <CreateStudent show={show} onClose={() => setShow(false)} />
     </Layout>
   )
