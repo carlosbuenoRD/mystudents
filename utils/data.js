@@ -49,10 +49,10 @@ export const students = [
 export const classrooms = new Set(students.map((i) => i.classroom))
 
 export const subjects = [
-  'Lengua Española',
-  'Matematicas',
-  'Ciencias Sociales',
-  'Ciencias Naturales',
+  { title: 'Lengua Española', color: 'bg-red-300' },
+  { title: 'Matematicas', color: 'bg-blue-300' },
+  { title: 'Ciencias Sociales', color: 'bg-yellow-300' },
+  { title: 'Ciencias Naturales', color: 'bg-green-300' },
 ]
 
 export const calificationSubjects = [

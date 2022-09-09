@@ -14,13 +14,12 @@ function Navbar() {
   return (
     <header className='h-20 md:h-28 shadow-md'>
       <nav className='px-2 sm:px-0 container m-auto flex items-center justify-between h-full xl:px-12'>
-        <div></div>
         <Link href={'/'} passHref>
-          <a className='font-bold font-mono text-4xl z-50'>My Students</a>
+          <a className='font-bold font-mono text-2xl z-50'>My Students</a>
         </Link>
 
-        {/* <ul
-          className={`fixed md:relative transition-all flex flex-col md:flex-row text-2xl pt-20 ${
+        <ul
+          className={`fixed md:relative transition-all flex flex-col md:flex-row text-2xl pt-20 z-50 ${
             mobileMenu ? 'w-full' : 'w-0'
           } top-0 bottom-0 right-0 bg-green-50 md:bg-white md:pt-0 md:text-lg md:w-fit md:flex-row`}
         >
@@ -48,7 +47,7 @@ function Navbar() {
               </a>
             </Link>
           </li>
-        </ul> */}
+        </ul>
 
         <button className='hidden md:block    p-1 border-2 rounded-md text-orange-600 border-orange-400'>
           <BsDoorClosed size={30} />

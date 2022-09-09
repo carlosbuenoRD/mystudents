@@ -2,6 +2,8 @@ export const studentActions = {
   GET_ALL_STUDENTS: 'GET_ALL_STUDENTS',
   GET_ALL_CALIFICATIONS: 'GET_ALL_CALIFICATIONS',
   GET_ALL_CHECKLIST: 'GET_ALL_CHECKLIST',
+  GET_ONE_STUDENTS: 'GET_ONE_STUDENTS',
+  GET_ONE_CALIFICATIONS: 'GET_ONE_CALIFICATIONS',
   CREATE_STUDENT: 'CREATE_STUDENT',
   CREATE_CHECKLIST: 'CREATE_CHECKLIST',
   DELETE_STUDENT: 'DELETE_STUDENT',
@@ -15,6 +17,12 @@ export default function studentReducer(state, { type, payload }) {
       return {
         ...state,
         students: payload,
+      }
+
+    case studentActions.GET_ONE_STUDENTS:
+      return {
+        ...state,
+        student: payload,
       }
 
     case studentActions.CREATE_STUDENT:
@@ -45,6 +53,12 @@ export default function studentReducer(state, { type, payload }) {
       return {
         ...state,
         califications: payload,
+      }
+
+    case studentActions.GET_ONE_CALIFICATIONS:
+      return {
+        ...state,
+        calification: payload,
       }
 
     case studentActions.UPDATE_CALIFICATION:

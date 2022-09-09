@@ -64,7 +64,7 @@ export default function Home({ studentsCount }) {
 
       <section className='border flex h-48 md:h-64 rounded-l-md'>
         <div className='flex w-full place-items-center'>
-          <Link href='/list' passHref>
+          <Link href='/checklist' passHref>
             <a className='flex flex-col justify-center items-center cursor-pointer transition-all bg-cyan-100/80 w-full h-full hover:scale-105 hover:bg-cyan-100'>
               <BsListCheck className='mr-2 -mb-1 text-2xl sm:text-3xl md:text-5xl xl:text-6xl' />
               <h1 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mt-5'>
@@ -72,18 +72,22 @@ export default function Home({ studentsCount }) {
               </h1>
             </a>
           </Link>
-          <div className='flex flex-col justify-center items-center cursor-pointer transition-all bg-yellow-100/80 w-full h-full hover:scale-105 hover:bg-yellow-100'>
-            <FaUserGraduate className='mr-2 text-2xl sm:text-3xl md:text-5xl xl:text-6xl' />
-            <h1 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mt-5'>
-              Estudiantes
-            </h1>
-          </div>
-          <div className='flex flex-col justify-center items-center cursor-pointer transition-all bg-emerald-100 w-full h-full hover:scale-105 hover:bg-emerald-100'>
-            <GrNotes className='mr-2 text-2xl sm:text-3xl md:text-5xl xl:text-6xl' />
-            <h1 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mt-5'>
-              Calificaciones
-            </h1>
-          </div>
+          <Link href={'/students'} passHref>
+            <a className='flex flex-col justify-center items-center cursor-pointer transition-all bg-yellow-100/80 w-full h-full hover:scale-105 hover:bg-yellow-100'>
+              <FaUserGraduate className='mr-2 text-2xl sm:text-3xl md:text-5xl xl:text-6xl' />
+              <h1 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mt-5'>
+                Estudiantes
+              </h1>
+            </a>
+          </Link>
+          <Link href={'/calificaciones'} passHref>
+            <a className='flex flex-col justify-center items-center cursor-pointer transition-all bg-emerald-100 w-full h-full hover:scale-105 hover:bg-emerald-100'>
+              <GrNotes className='mr-2 text-2xl sm:text-3xl md:text-5xl xl:text-6xl' />
+              <h1 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mt-5'>
+                Calificaciones
+              </h1>
+            </a>
+          </Link>
         </div>
       </section>
 

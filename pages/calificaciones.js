@@ -132,6 +132,7 @@ function Calificaciones() {
           )
           .map((grade) => (
             <li
+              id={grade.student.name}
               onClick={() => fillCalification(grade)}
               className={`py-4 flex justify-between items-center border-b hover:opacity-100 px-4 ${
                 calification._id === grade._id

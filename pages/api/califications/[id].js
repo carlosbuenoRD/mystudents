@@ -6,7 +6,19 @@ import { Calification } from '@models/students'
 
 const handler = nc()
 
-// Get all students
+// Get one grade
+handler.get(async (req, res) => {
+  try {
+    await connect()
+    const grade = await Calification.find({ student: req.query.id })
+    await disconnect()
+    response(res, 200, grade)
+  } catch (error) {
+    res.json(error.message)
+  }
+})
+
+// Update Calification
 handler.put(async (req, res) => {
   const { notebook, participation, conduct, test, homework, practice } =
     req.body

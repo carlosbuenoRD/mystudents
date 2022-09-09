@@ -1,21 +1,28 @@
 import { useEffect, useState } from 'react'
-import { useStudentDispatch } from '../../hooks/useContextHook'
+import { useStudentDispatch, useCTX } from '../../hooks/useContextHook'
 import ReactDom from 'react-dom'
+import getLiteral from '@utils/getLiteral'
 
 // Icons
 import { AiOutlineClose } from 'react-icons/ai'
+import Confirmation from '@components/Confirmation'
+import Link from 'next/link'
 
 function ViewStudent({ show, onClose, student }) {
   const [isBrowser, setIsBrowser] = useState(false)
+  const [edit, setEdit] = useState(false)
+  const [confirmation, setConfirmation] = useState(false)
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
   const [classroom, setClassRoom] = useState('')
 
-  const { updateStudent } = useStudentDispatch()
+  const { calification } = useCTX()
+  const { updateStudent, getOneGrade } = useStudentDispatch()
 
   useEffect(() => {
     setIsBrowser(true)
     if (student) {
+      getOneGrade(student._id)
       setState()
     }
   }, [student])
@@ -27,16 +34,21 @@ function ViewStudent({ show, onClose, student }) {
   }
 
   const handleUpdateStudent = () => {
-    updateStudent({ _id: student._id, name, lastname, classroom })
-    onClose()
+    updateStudent({
+      _id: student._id,
+      name,
+      lastname,
+      classroom,
+    })
+    setEdit(false)
   }
 
   const content = show ? (
-    <div className={'modal_overlay'}>
+    <div className={'modal_overlay overflow-hidden'}>
       <div className='modal_card'>
         <div className='modal_card__header'>
-          <h2 className='font-medium font-mono text-lg tracking-wider'>
-            Estudiante
+          <h2 className='font-medium font-mono text-xl lg:text-2xl tracking-wider'>
+            Perfil de estudiante
           </h2>
           <button
             onClick={onClose}
@@ -50,8 +62,9 @@ function ViewStudent({ show, onClose, student }) {
             <div className='flex flex-col'>
               <label>Nombre</label>
               <input
+                disabled={!edit}
                 type={'text'}
-                className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -59,8 +72,9 @@ function ViewStudent({ show, onClose, student }) {
             <div className='flex flex-col my-2'>
               <label>Apellido</label>
               <input
+                disabled={!edit}
                 type={'text'}
-                className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
               />
@@ -68,28 +82,96 @@ function ViewStudent({ show, onClose, student }) {
             <div className='flex flex-col'>
               <label>Curso</label>
               <input
+                disabled={!edit}
                 type={'text'}
-                className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
                 value={classroom}
                 onChange={(e) => setClassRoom(e.target.value)}
               />
             </div>
           </form>
 
-          <div></div>
+          {calification && (
+            <div className='text-center my-4'>
+              <h2 className='text-2xl'>Calificaciones</h2>
+              <div className='grid grid-cols-2 sm:grid-cols-4 gap-5 mt-4'>
+                <div className='border-2 p-1 border-red-400'>
+                  <h1 className='font-medium font-mono text-xl uppercase'>
+                    {getLiteral(calification[0])}
+                  </h1>
+                  <p>Español</p>
+                </div>
+                <div className='border-2 p-1 border-yellow-400'>
+                  <h1 className='font-medium font-mono text-xl uppercase'>
+                    {getLiteral(calification[1])}
+                  </h1>
+                  <p>Sociales</p>
+                </div>
+                <div className='border-2 p-1 border-blue-400'>
+                  <h1 className='font-medium font-mono text-xl uppercase'>
+                    {getLiteral(calification[2])}
+                  </h1>
+                  <p>Matematicas</p>
+                </div>
+                <div className='border-2 p-1 border-green-400'>
+                  <h1 className='font-medium font-mono text-xl uppercase'>
+                    {getLiteral(calification[3])}
+                  </h1>
+                  <p>Naturales</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
+
+        {/* Footer */}
         <div className='modal_card__footer'>
-          <button
-            onClick={handleUpdateStudent}
-            className='border-2 border-green-500 w-1/2 py-1 rounded-md mr-2'
-          >
-            Actualizar
-          </button>
-          <button className='border-2 border-red-500 w-1/2 py-1 rounded-md mr-2'>
-            Cancelar
-          </button>
+          {edit ? (
+            <>
+              <button
+                onClick={() => setConfirmation(true)}
+                className='border-2 bg-blue-300/80 hover:bg-blue-300 -mb-2  transition-all w-1/2 h-14 font-medium tracking-widest rounded-md mr-2'
+              >
+                Actualizar
+              </button>
+              <button
+                onClick={() => {
+                  setEdit(false)
+                  setState()
+                }}
+                className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-1/2 h-14rounded-md mr-2'
+              >
+                Cancelar
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className='w-full transition-all bg-blue-300 h-14 -mb-2 text-xl font-medium font-mono tracking-widest'
+                style={{ paddingTop: '0px' }}
+                onClick={() => setEdit(true)}
+              >
+                Editar
+              </button>
+              <Link href={`/calificaciones#${student.name}`} passHref>
+                <a
+                  className='w-2/5 ml-2 transition-all grid place-items-center bg-green-300 h-14 -mb-2 text-lg px-2 font-medium font-mono tracking-widest'
+                  style={{ paddingTop: '0px' }}
+                >
+                  Calificar
+                </a>
+              </Link>
+            </>
+          )}
         </div>
       </div>
+      <Confirmation
+        show={confirmation}
+        onClose={() => setConfirmation(false)}
+        onConfirm={handleUpdateStudent}
+        text='Estas seguro de actualizar los datos del estudiante?'
+        success
+      />
     </div>
   ) : null
 

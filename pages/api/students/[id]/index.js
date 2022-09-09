@@ -9,7 +9,9 @@ const handler = nc()
 handler.get(async (req, res) => {
   try {
     await connect()
-    const students = await Student.findById(req.query.id)
+    const students = await Student.findById(req.query.id).populate(
+      'califications'
+    )
     await disconnect()
     response(res, 200, students)
   } catch (error) {

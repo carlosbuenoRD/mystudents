@@ -15,6 +15,14 @@ export const useStudentDispatch = () => {
     dispatch({ type: studentActions.GET_ALL_STUDENTS, payload: data })
   }, [dispatch])
 
+  const getOne = useCallback(
+    async (id) => {
+      const { data } = await axios.get(`/api/students/${id}`)
+      dispatch({ type: studentActions.GET_ONE_STUDENTS, payload: data })
+    },
+    [dispatch]
+  )
+
   const createStudent = useCallback(
     async (payload) => {
       const { data } = await axios.post('/api/students', payload)
@@ -45,6 +53,14 @@ export const useStudentDispatch = () => {
     async (subject) => {
       const { data } = await axios.get(`/api/califications?subject=${subject}`)
       dispatch({ type: studentActions.GET_ALL_CALIFICATIONS, payload: data })
+    },
+    [dispatch]
+  )
+
+  const getOneGrade = useCallback(
+    async (id) => {
+      const { data } = await axios.get(`/api/califications/${id}`)
+      dispatch({ type: studentActions.GET_ONE_CALIFICATIONS, payload: data })
     },
     [dispatch]
   )
@@ -83,7 +99,9 @@ export const useStudentDispatch = () => {
   return useMemo(
     () => ({
       getAll,
+      getOne,
       getAllGrades,
+      getOneGrade,
       createStudent,
       deleteStudent,
       updateStudent,

@@ -45,7 +45,7 @@ function CreateStudent({ show, onClose }) {
               <label>Nombre</label>
               <input
                 type={'text'}
-                className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -54,7 +54,7 @@ function CreateStudent({ show, onClose }) {
               <label>Apellido</label>
               <input
                 type={'text'}
-                className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
               />
@@ -63,7 +63,7 @@ function CreateStudent({ show, onClose }) {
               <label>Curso</label>
               <input
                 type={'text'}
-                className='border-2 border-blue-400 py-1 px-2 rounded-md outline-blue-500'
+                className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
                 value={classroom}
                 onChange={(e) => setClassRoom(e.target.value)}
               />
@@ -73,11 +73,14 @@ function CreateStudent({ show, onClose }) {
         <div className='modal_card__footer'>
           <button
             onClick={handleCreateStudent}
-            className='border-2 border-green-500 w-1/2 py-1 rounded-md mr-2'
+            className='border-2 bg-green-300/80 hover:bg-green-300 -mb-2  transition-all w-full h-14 font-medium tracking-widest rounded-md mr-2'
           >
             Agregar
           </button>
-          <button className='border-2 border-red-500 w-1/2 py-1 rounded-md mr-2'>
+          <button
+            onClick={onClose}
+            className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-full h-14 rounded-md'
+          >
             Cancelar
           </button>
         </div>

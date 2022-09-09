@@ -45,10 +45,12 @@ const studentSchema = new Schema({
     type: String,
     required: true,
   },
-  calification: {
-    type: Schema.Types.ObjectId,
-    ref: 'califications',
-  },
+  califications: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'califications',
+    },
+  ],
 })
 
 export const Student =

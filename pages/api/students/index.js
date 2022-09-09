@@ -10,7 +10,7 @@ const handler = nc()
 handler.get(async (req, res) => {
   try {
     await connect()
-    const students = await Student.find({}).populate('calification')
+    const students = await Student.find({}).populate('califications')
     await disconnect()
     response(res, 200, students)
   } catch (error) {
@@ -32,9 +32,12 @@ handler.post(async (req, res) => {
         `El estudiante ${name} ${lastname} ya esta registrado en el curso ${classroom}`
       )
     }
-    const newStudent = await Student.create(req.body)
+    const newStudent = await Student.create({ ...req.body })
     subjects.forEach(async (s) => {
-      await Calification.create({ student: newStudent._id, subject: s })
+      await Calification.create({
+        student: newStudent._id,
+        subject: s.title,
+      })
     })
     await disconnect()
     response(res, 201, newStudent)

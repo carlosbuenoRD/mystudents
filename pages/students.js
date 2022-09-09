@@ -33,7 +33,7 @@ function Students() {
         </button>
       </div>
       <StudentsTable
-        students={students.filter(
+        students={students?.filter(
           (i) =>
             i.name.toLowerCase().includes(search.toLowerCase()) ||
             i.lastname.toLowerCase().includes(search.toLowerCase())
