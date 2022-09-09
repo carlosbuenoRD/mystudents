@@ -19,3 +19,29 @@
   @apply
   text-slate-700
 }
+
+.flip {
+  animation: flipflip 5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s infinite normal forwards;
+  animation: name duration timing-function delay iteration-count direction fill-mode;
+  /* animation-timing-function: ; */
+  /* animation-fill-mode: ; */
+  /* animation-delay: ; */
+}
+
+@keyframes flipflip {
+  0% {
+  transform: rotate(0deg);
+  }
+  25%{
+    transform: rotate(90deg);
+  }
+  50%{
+    transform: rotate(0deg);
+  }
+  75%{
+    transform: rotate(-90deg);
+  }
+  100%{
+    transform: rotate(0deg);
+  }
+}

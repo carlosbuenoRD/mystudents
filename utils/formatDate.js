@@ -1,3 +1,13 @@
+const DAYS = [
+  'lunes',
+  'martes',
+  'miercoles',
+  'jueves',
+  'viernes',
+  'sabado',
+  'domingo',
+]
+
 export default function formatDate(date, format) {
   let d = new Date(date)
 
@@ -18,5 +28,9 @@ export default function formatDate(date, format) {
     let year = d.getFullYear()
 
     return `${day}/${month}/${year}`
+  }
+
+  if (format === 'day') {
+    return DAYS[d.getDay()]
   }
 }
