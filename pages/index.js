@@ -18,12 +18,13 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-      studentsCount: data,
+      studentsCount: data.students,
+      classroomsCount: data.classrooms,
     },
   }
 }
 
-export default function Home({ studentsCount }) {
+export default function Home({ studentsCount, classroomsCount }) {
   return (
     <Layout>
       <section className='grid md:grid-cols-2 my-4 gap-4 md:gap-10'>
@@ -38,7 +39,7 @@ export default function Home({ studentsCount }) {
           </h1>
           <div className='grid grid-cols-2 place-items-center w-full mt-6'>
             <div className='flex flex-col items-center w-full border-r-2 border-slate-500'>
-              <h1 className='text-2xl font-medium'>3</h1>
+              <h1 className='text-2xl font-medium'>{classroomsCount}</h1>
               <p className='text-lg'>Cursos</p>
             </div>
             <div className='flex flex-col items-center'>

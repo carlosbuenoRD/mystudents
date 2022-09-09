@@ -6,7 +6,7 @@ import Confirmation from '@components/Confirmation'
 import ViewStudent from '@components/Modal/ViewStudent'
 
 // Icons
-import { BsTrash } from 'react-icons/bs'
+import { TbTrash } from 'react-icons/tb'
 
 function StudentsTable({ students }) {
   const [show, setShow] = useState(false)
@@ -59,13 +59,13 @@ function StudentsTable({ students }) {
                   {student.name}
                 </th>
                 <td className='py-4 px-6'>{student.lastname}</td>
-                <td className='py-4 px-6'>{student.classroom}</td>
+                <td className='py-4 px-6'>{student.classroom?.name}</td>
                 <td className='py-4 px-6 text-center'>
                   <button
                     onClick={() => handleDeleteStudent(student)}
                     className='font-medium z-50 text-blue-600 dark:text-blue-500 hover:underline'
                   >
-                    <BsTrash className='ml-1 hover:text-red-500' size={20} />
+                    <TbTrash className='ml-1 hover:text-red-500' size={20} />
                   </button>
                 </td>
               </tr>

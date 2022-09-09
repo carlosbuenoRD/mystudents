@@ -82,10 +82,10 @@ function ViewStudent({ show, onClose, student }) {
             <div className='flex flex-col'>
               <label>Curso</label>
               <input
-                disabled={!edit}
+                disabled={true}
                 type={'text'}
                 className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
-                value={classroom}
+                value={classroom.name}
                 onChange={(e) => setClassRoom(e.target.value)}
               />
             </div>

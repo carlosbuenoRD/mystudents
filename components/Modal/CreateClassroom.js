@@ -5,22 +5,19 @@ import ReactDom from 'react-dom'
 // Icons
 import { AiOutlineClose } from 'react-icons/ai'
 
-function CreateStudent({ show, onClose, classroom }) {
+function CreateClassroom({ show, onClose }) {
   const [isBrowser, setIsBrowser] = useState(false)
   const [name, setName] = useState('')
-  const [lastname, setLastname] = useState('')
 
-  const { createStudent } = useStudentDispatch()
+  const { createClassroom } = useStudentDispatch()
 
   useEffect(() => {
     setIsBrowser(true)
   }, [])
 
-  const handleCreateStudent = () => {
-    createStudent({ name, lastname, classroom: classroom._id })
+  const handleCreateClassroom = () => {
+    createClassroom({ name })
     onClose()
-    setName('')
-    setLastname('')
   }
 
   const content = show ? (
@@ -28,7 +25,7 @@ function CreateStudent({ show, onClose, classroom }) {
       <div className='modal_card'>
         <div className='modal_card__header'>
           <h2 className='font-medium font-mono text-lg tracking-wider'>
-            Agregar Estudiante
+            Agregar Curso
           </h2>
           <button
             onClick={onClose}
@@ -40,7 +37,7 @@ function CreateStudent({ show, onClose, classroom }) {
         <div className='modal_card__body'>
           <form>
             <div className='flex flex-col'>
-              <label>Nombre</label>
+              <label>Curso</label>
               <input
                 type={'text'}
                 className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
@@ -48,29 +45,11 @@ function CreateStudent({ show, onClose, classroom }) {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className='flex flex-col my-2'>
-              <label>Apellido</label>
-              <input
-                type={'text'}
-                className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
-              />
-            </div>
-            <div className='flex flex-col'>
-              <label>Curso</label>
-              <input
-                disabled={true}
-                type={'text'}
-                value={classroom.name}
-                className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md'
-              />
-            </div>
           </form>
         </div>
         <div className='modal_card__footer'>
           <button
-            onClick={handleCreateStudent}
+            onClick={handleCreateClassroom}
             className='border-2 bg-green-300/80 hover:bg-green-300 -mb-2  transition-all w-full h-14 font-medium tracking-widest rounded-md mr-2'
           >
             Agregar
@@ -93,4 +72,4 @@ function CreateStudent({ show, onClose, classroom }) {
   }
 }
 
-export default CreateStudent
+export default CreateClassroom

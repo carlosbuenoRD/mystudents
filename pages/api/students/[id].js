@@ -1,5 +1,6 @@
 import nc from 'next-connect'
-import { Student } from '@models/students'
+import { Student, Calification } from '@models/students'
+import { ClassRoom } from '@models/classroom'
 import { connect, disconnect } from '@utils/db'
 import response from '@utils/response'
 
@@ -44,7 +45,19 @@ handler.put(async (req, res) => {
 handler.delete(async (req, res) => {
   try {
     await connect()
-    await Student.findByIdAndDelete(req.query.id)
+    let student = await Student.findById(req.query.id)
+    let califications = await Calification.find({ student: student._id })
+    await ClassRoom.updateOne(
+      { _id: student.classroom },
+      {
+        $pull: {
+          students: student._id,
+        },
+      }
+    )
+    console.log(califications)
+    await student.remove()
+    await califications.remove()
     await disconnect()
     response(res, 204)
   } catch (error) {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useCTX, useStudentDispatch } from '../hooks/useContextHook'
-import { classrooms } from '@utils/data'
 
 //Icons
 import { AiOutlineClose } from 'react-icons/ai'
@@ -18,20 +17,36 @@ function CheckList() {
   const [subject, setSubject] = useState('Lengua Española')
   const [history, setHistory] = useState(true)
   const [confirmation, setConfirmation] = useState(false)
+  const [classroom, setClassroom] = useState('')
   const [list, setList] = useState([])
   const [selectedList, setSelectedList] = useState({})
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
-  const { students, allCheckList } = useCTX()
-  const { getAll, getAllList, createList } = useStudentDispatch()
+  const { students, allCheckList, classrooms } = useCTX()
+  const { getAll, getAllList, createList, getAllClassroom } =
+    useStudentDispatch()
 
   useEffect(() => {
-    getAll()
+    getAllClassroom()
   }, [])
 
   useEffect(() => {
+    if (classroom) {
+      getAll(classroom)
+    }
+  }, [classroom])
+
+  useEffect(() => {
     setList([])
-    getAllList(subject, date)
-  }, [history, subject, date])
+    if (classroom) {
+      getAllList(subject, date, classroom)
+    }
+  }, [history, subject, date, classroom])
+
+  useEffect(() => {
+    if (classrooms) {
+      setClassroom(classrooms[0]._id)
+    }
+  }, [classrooms])
 
   const handleListChange = (student, present) => {
     const exist = list.findIndex((i) => i.student === student._id)
@@ -63,7 +78,7 @@ function CheckList() {
   }
 
   const handleCreateList = () => {
-    createList({ list, subject })
+    createList({ list, subject, classroom })
     setHistory(!history)
   }
 
@@ -80,9 +95,14 @@ function CheckList() {
           <div className='flex'>
             <div className='mr-4'>
               <label>Curso</label>
-              <select className='border p-1'>
-                {Array.from(classrooms).map((i) => (
-                  <option>{i}</option>
+              <select
+                onChange={(e) => setClassroom(e.target.value)}
+                className='border p-1'
+              >
+                {classrooms?.map((i) => (
+                  <option key={i._id} value={i._id}>
+                    {i.name}
+                  </option>
                 ))}
               </select>
             </div>
@@ -161,6 +181,7 @@ function CheckList() {
               <div className='flex-1 h-full overflow-y-scroll'>
                 {allCheckList?.map((list) => (
                   <div
+                    key={list._id}
                     onClick={() => handleViewList(list)}
                     className='grid grid-cols-4 cursor-pointer border-b p-3 hover:bg-slate-100 '
                   >
@@ -190,8 +211,9 @@ function CheckList() {
           </>
         ) : (
           <div className='flex-1 h-full overflow-y-scroll'>
-            {students.map((student) => (
+            {students?.map((student) => (
               <div
+                key={student._id}
                 className={`grid grid-cols-2 border-b p-3 ${chooseColor(
                   student
                 )}`}

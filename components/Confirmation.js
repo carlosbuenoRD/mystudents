@@ -19,28 +19,24 @@ function Confirmation({ show, onClose, success, text, onConfirm }) {
   const content = show ? (
     <div className={'modal_overlay'}>
       <div className='modal_card'>
-        <div className='modal_card__header'>
-          <h2 className='font-medium font-mono text-lg tracking-wider'></h2>
-          <button
-            onClick={onClose}
-            className='border-2 opacity-70 p-1 rounded-full text-slate-700 hover:shadow-md hover:opacity-100'
-          >
-            <AiOutlineClose size={20} />
-          </button>
-        </div>
         <div className='modal_card__body p-6'>
           <h1 className='text-2xl text-slate-700'>{text}</h1>
         </div>
         <div className='modal_card__footer'>
           <button
             onClick={handleConfirm}
-            className={`border-2 w-1/2 py-1 rounded-md mr-2 ${
-              success ? 'border-green-500' : 'border-red-500'
+            className={`border-2 w-1/2 py-1 h-14 rounded-md mr-2 ${
+              success
+                ? 'bg-green-300/80 hover:bg-green-300'
+                : 'bg-red-300/80 hover:bg-red-300'
             }`}
           >
             Completar
           </button>
-          <button className='border-2 w-1/2 py-1 rounded-md mr-2'>
+          <button
+            onClick={onClose}
+            className='border-2 w-1/2 py-1 h-14 rounded-md mr-2'
+          >
             Cancelar
           </button>
         </div>

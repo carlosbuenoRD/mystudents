@@ -1,12 +1,12 @@
 import mongoose, { model, Schema } from 'mongoose'
 
 const calificationSchema = new Schema({
-  notebook: Number,
-  homework: Number,
-  practice: Number,
-  participation: Number,
-  test: Number,
-  conduct: Number,
+  notebook: { type: Number, default: 0 },
+  homework: { type: Number, default: 0 },
+  practice: { type: Number, default: 0 },
+  participation: { type: Number, default: 0 },
+  test: { type: Number, default: 0 },
+  conduct: { type: Number, default: 0 },
   subject: String,
   student: {
     type: Schema.Types.ObjectId,
@@ -17,6 +17,10 @@ const calificationSchema = new Schema({
 const checkListSchema = new Schema(
   {
     subject: String,
+    classroom: {
+      type: Schema.Types.ObjectId,
+      ref: 'classroom',
+    },
     list: [
       {
         student: {
@@ -42,8 +46,8 @@ const studentSchema = new Schema({
     required: true,
   },
   classroom: {
-    type: String,
-    required: true,
+    type: Schema.Types.ObjectId,
+    ref: 'classroom',
   },
   califications: [
     {

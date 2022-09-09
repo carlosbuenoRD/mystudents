@@ -23,14 +23,14 @@ export default function formatDate(date, format) {
   }
 
   if (format === 'date') {
-    let month = d.getMonth()
-    let day = d.getDay()
+    let month = d.getMonth() + 1
+    let day = d.getDate()
     let year = d.getFullYear()
 
     return `${day}/${month}/${year}`
   }
 
   if (format === 'day') {
-    return DAYS[d.getDay()]
+    return DAYS[d.getDay() - 1]
   }
 }

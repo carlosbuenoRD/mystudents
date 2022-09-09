@@ -17,7 +17,8 @@ handler.get(async (req, res) => {
     await connect()
     const list = await CheckList.find({
       subject: req.query.subject,
-      createdAt: { $gte: start, $lt: end },
+      classroom: req.query.classroom,
+      // createdAt: { $gte: start, $lt: end },
     }).populate('list.student')
     await disconnect()
     response(res, 200, list)
@@ -28,11 +29,11 @@ handler.get(async (req, res) => {
 
 // Create a list
 handler.post(async (req, res) => {
-  const { list, subject } = req.body
+  const { list, subject, classroom } = req.body
 
   try {
     await connect()
-    const newList = await CheckList.create({ list, subject })
+    const newList = await CheckList.create({ list, subject, classroom })
     await disconnect()
     response(res, 201, newList)
   } catch (error) {

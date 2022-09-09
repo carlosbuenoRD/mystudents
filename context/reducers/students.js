@@ -1,14 +1,18 @@
 export const studentActions = {
   GET_ALL_STUDENTS: 'GET_ALL_STUDENTS',
+  GET_ALL_CLASSROOM: 'GET_ALL_CLASSROOM',
   GET_ALL_CALIFICATIONS: 'GET_ALL_CALIFICATIONS',
   GET_ALL_CHECKLIST: 'GET_ALL_CHECKLIST',
   GET_ONE_STUDENTS: 'GET_ONE_STUDENTS',
   GET_ONE_CALIFICATIONS: 'GET_ONE_CALIFICATIONS',
   CREATE_STUDENT: 'CREATE_STUDENT',
+  CREATE_CLASSROOM: 'CREATE_CLASSROOM',
   CREATE_CHECKLIST: 'CREATE_CHECKLIST',
   DELETE_STUDENT: 'DELETE_STUDENT',
+  DELETE_CLASSROOM: 'DELETE_CLASSROOM',
   UPDATE_STUDENT: 'UPDATE_STUDENT',
   UPDATE_CALIFICATION: 'UPDATE_CALIFICATION',
+  CLEAR_STUDENTS: 'CLEAR_STUDENTS',
 }
 
 export default function studentReducer(state, { type, payload }) {
@@ -47,6 +51,12 @@ export default function studentReducer(state, { type, payload }) {
         students: [...updatedStudent],
       }
 
+    case studentActions.CLEAR_STUDENTS:
+      return {
+        ...state,
+        students: [],
+      }
+
     // CALIFICATIONS
 
     case studentActions.GET_ALL_CALIFICATIONS:
@@ -82,6 +92,27 @@ export default function studentReducer(state, { type, payload }) {
       return {
         ...state,
         allCheckList: [...state.allCheckList, payload],
+      }
+
+    // Classroom
+
+    case studentActions.GET_ALL_CLASSROOM:
+      return {
+        ...state,
+        classrooms: payload,
+      }
+
+    case studentActions.CREATE_CLASSROOM:
+      return {
+        ...state,
+        classrooms: [...state.classrooms, payload],
+      }
+
+    case studentActions.DELETE_CLASSROOM:
+      const removedClassroom = state.classrooms.filter((i) => i._id !== payload)
+      return {
+        ...state,
+        students: [...removedClassroom],
       }
 
     default:

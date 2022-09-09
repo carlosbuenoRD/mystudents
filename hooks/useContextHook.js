@@ -10,10 +10,13 @@ export const useCTX = () => {
 export const useStudentDispatch = () => {
   const dispatch = useContext(DispatchContext)
 
-  const getAll = useCallback(async () => {
-    const { data } = await axios.get('/api/students')
-    dispatch({ type: studentActions.GET_ALL_STUDENTS, payload: data })
-  }, [dispatch])
+  const getAll = useCallback(
+    async (classroom) => {
+      const { data } = await axios.get(`/api/students?classroom=${classroom}`)
+      dispatch({ type: studentActions.GET_ALL_STUDENTS, payload: data })
+    },
+    [dispatch]
+  )
 
   const getOne = useCallback(
     async (id) => {
@@ -47,11 +50,17 @@ export const useStudentDispatch = () => {
     [dispatch]
   )
 
+  const clearStudents = () => {
+    dispatch({ type: studentActions.CLEAR_STUDENTS })
+  }
+
   // grades
 
   const getAllGrades = useCallback(
-    async (subject) => {
-      const { data } = await axios.get(`/api/califications?subject=${subject}`)
+    async (subject, classroom) => {
+      const { data } = await axios.get(
+        `/api/califications?subject=${subject}&classroom=${classroom}`
+      )
       dispatch({ type: studentActions.GET_ALL_CALIFICATIONS, payload: data })
     },
     [dispatch]
@@ -79,9 +88,9 @@ export const useStudentDispatch = () => {
   // CHECKLIST
 
   const getAllList = useCallback(
-    async (subject, date) => {
+    async (subject, date, classroom) => {
       const { data } = await axios.get(
-        `/api/checklist?subject=${subject}&date=${date}`
+        `/api/checklist?subject=${subject}&date=${date}&classroom=${classroom}`
       )
       dispatch({ type: studentActions.GET_ALL_CHECKLIST, payload: data })
     },
@@ -96,6 +105,29 @@ export const useStudentDispatch = () => {
     [dispatch]
   )
 
+  // CLassroom
+
+  const getAllClassroom = useCallback(async () => {
+    const { data } = await axios.get('/api/classroom')
+    dispatch({ type: studentActions.GET_ALL_CLASSROOM, payload: data })
+  }, [dispatch])
+
+  const createClassroom = useCallback(
+    async (payload) => {
+      const { data } = await axios.post('/api/classroom', payload)
+      dispatch({ type: studentActions.CREATE_CLASSROOM, payload: data })
+    },
+    [dispatch]
+  )
+
+  const deleteClassroom = useCallback(
+    async (id) => {
+      await axios.delete(`/api/classroom/${id}`)
+      dispatch({ type: studentActions.DELETE_CLASSROOM, payload: id })
+    },
+    [dispatch]
+  )
+
   return useMemo(
     () => ({
       getAll,
@@ -104,10 +136,14 @@ export const useStudentDispatch = () => {
       getOneGrade,
       createStudent,
       deleteStudent,
+      clearStudents,
       updateStudent,
       updateGrades,
       getAllList,
       createList,
+      getAllClassroom,
+      createClassroom,
+      deleteClassroom,
     }),
     [dispatch]
   )

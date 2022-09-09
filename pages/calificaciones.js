@@ -8,6 +8,7 @@ import { GrUpdate } from 'react-icons/gr'
 
 function Calificaciones() {
   const [subject, setSubject] = useState('Lengua Española')
+  const [classroom, setClassroom] = useState('')
   const [search, setSearch] = useState('')
   const [calification, setCalification] = useState({
     _id: '',
@@ -18,12 +19,24 @@ function Calificaciones() {
     conduct: 0,
     homework: 0,
   })
-  const { califications } = useCTX()
-  const { getAllGrades, updateGrades } = useStudentDispatch()
+  const { califications, classrooms } = useCTX()
+  const { getAllGrades, updateGrades, getAllClassroom } = useStudentDispatch()
 
   useEffect(() => {
-    getAllGrades(subject)
-  }, [subject])
+    getAllClassroom()
+  }, [])
+
+  useEffect(() => {
+    if (classrooms) {
+      setClassroom(classrooms[0]._id)
+    }
+  }, [classrooms])
+
+  useEffect(() => {
+    if (classroom) {
+      getAllGrades(subject, classroom)
+    }
+  }, [subject, classroom])
 
   const handleChange = (e) => {
     setCalification((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -99,32 +112,31 @@ function Calificaciones() {
       <div className='flex-1 mb-8 mt-4'>
         <div className='flex items-end'>
           <SearchInput input={search} setInput={setSearch} />
-          {/* <div className='mx-4'>
-            <label className='block' htmlFor='semester'>
-              Semestre
-            </label>
-            <select className='p-2 border' id='semester'>
-              <option>Primer semestre</option>
-              <option>Segun Semestre</option>
-            </select>
-          </div>
-          <div>
+
+          <div className='ml-6'>
             <label className='block' htmlFor='semester'>
               Curso
             </label>
-            <select className='p-2 border' id='semester'>
-              <option>4a</option>
-              <option>4b</option>
-              <option>2b</option>
-              <option>2a</option>
+            <select
+              value={classroom}
+              onChange={(e) => setClassroom(e.target.value)}
+              className='p-2 border'
+              id='semester'
+            >
+              {classrooms?.map((i) => (
+                <option key={i._id} value={i._id}>
+                  {i.name}
+                </option>
+              ))}
             </select>
-          </div> */}
+          </div>
         </div>
       </div>
 
       {/* Students grades */}
       <ul>
         {califications
+          ?.filter((i) => i.student?.classroom === classroom)
           .filter(
             (i) =>
               i.student?.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -132,6 +144,7 @@ function Calificaciones() {
           )
           .map((grade) => (
             <li
+              key={grade._id}
               id={grade.student.name}
               onClick={() => fillCalification(grade)}
               className={`py-4 flex justify-between items-center border-b hover:opacity-100 px-4 ${
@@ -145,7 +158,10 @@ function Calificaciones() {
               </p>
               <div className='flex flex-1'>
                 {calificationSubjects.map((i) => (
-                  <div className='flex flex-col items-center ml-4'>
+                  <div
+                    key={i.title}
+                    className='flex flex-col items-center ml-4'
+                  >
                     <label>{i.title.toUpperCase()}</label>
                     <input
                       type='number'

@@ -20,6 +20,7 @@
   text-slate-700
 }
 
+/* Movil rotate */
 .flip {
   animation: flipflip 5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s infinite normal forwards;
   animation: name duration timing-function delay iteration-count direction fill-mode;
@@ -43,5 +44,27 @@
   }
   100%{
     transform: rotate(0deg);
+  }
+}
+
+/* LOADING */
+
+.loading {
+  width: 100px;
+  height: 100px;
+  animation: spin 1s linear infinite;
+  border: 15px solid rgb(160, 158, 158);
+  border-top: 15px solid black;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
