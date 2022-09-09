@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useCTX, useStudentDispatch } from '../hooks/useContextHook'
+import { toast } from 'react-toastify'
 
 //Icons
 import { AiOutlineClose } from 'react-icons/ai'
@@ -77,9 +78,18 @@ function CheckList() {
     }
   }
 
-  const handleCreateList = () => {
-    createList({ list, subject, classroom })
-    setHistory(!history)
+  const handleCreateList = async () => {
+    try {
+      if (list.length !== students.length) {
+        toast.error('Faltan estudiantes!')
+        return
+      }
+      await createList({ list, subject, classroom })
+      toast.success('Lista realizada!')
+      setHistory(!history)
+    } catch (error) {
+      toast.error('Hubo un problema!')
+    }
   }
 
   return (
@@ -125,7 +135,7 @@ function CheckList() {
           </button>
         </div>
       </div>
-      <div className='flex h-[70vh]'>
+      <div className='flex h-[65vh]'>
         <div className='w-1/4 mr-6'>
           <div className='border-bp-4 sticky top-0'>
             <button

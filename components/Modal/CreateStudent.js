@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useStudentDispatch } from '../../hooks/useContextHook'
+import { toast } from 'react-toastify'
 import ReactDom from 'react-dom'
 
 // Icons
@@ -16,11 +17,20 @@ function CreateStudent({ show, onClose, classroom }) {
     setIsBrowser(true)
   }, [])
 
-  const handleCreateStudent = () => {
-    createStudent({ name, lastname, classroom: classroom._id })
-    onClose()
-    setName('')
-    setLastname('')
+  const handleCreateStudent = async () => {
+    try {
+      if (!name || !lastname) {
+        toast.error('Completa todos los campos!')
+        return
+      }
+      await createStudent({ name, lastname, classroom: classroom._id })
+      toast.success('Estudiate agregado!')
+      onClose()
+      setName('')
+      setLastname('')
+    } catch (error) {
+      toast.error('Hubo un problema!')
+    }
   }
 
   const content = show ? (

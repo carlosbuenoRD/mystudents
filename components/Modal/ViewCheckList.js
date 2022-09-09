@@ -9,15 +9,9 @@ import completedList from '@utils/completedList'
 function ViewCheckList({ show, onClose, list }) {
   const [isBrowser, setIsBrowser] = useState(false)
 
-  const { updateStudent } = useStudentDispatch()
-
   useEffect(() => {
     setIsBrowser(true)
   }, [])
-
-  const handleUpdateStudent = () => {
-    onClose()
-  }
 
   const content = show ? (
     <div className={'modal_overlay'}>
@@ -34,8 +28,9 @@ function ViewCheckList({ show, onClose, list }) {
           </button>
         </div>
         <div className='modal_card__body'>
-          {list.list.map((i) => (
+          {list?.list.map((i) => (
             <div
+              key={i._id}
               className={`p-2 mb-1 rounded-md ${
                 i.present ? 'bg-green-300/80' : 'bg-red-300/80'
               }`}

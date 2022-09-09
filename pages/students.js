@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useCTX, useStudentDispatch } from '../hooks/useContextHook'
+import { toast } from 'react-toastify'
 
 // Components
 import Layout from '@components/Layout/Layout'
@@ -44,9 +45,15 @@ function Students() {
     getAllClassroom()
   }
 
-  const handleDeleteClassroom = (classroom) => {
-    setConfirmation(true)
-    setSelectedClassroom(classroom)
+  const handleDeleteClassroom = async () => {
+    console.log(selectedClassroom)
+    try {
+      await deleteClassroom(selectedClassroom._id)
+      handleClearStudents()
+      toast.success('Se ha borrado el curso!')
+    } catch (error) {
+      toast.error('Hubo un problema!')
+    }
   }
 
   return (
@@ -72,6 +79,7 @@ function Students() {
               <div className='grid grid-cols-3 gap-10'>
                 {classrooms?.map((i) => (
                   <div
+                    key={i._id}
                     onClick={() => getStudents(i)}
                     className='bg-orange-200 relative cursor-pointer shadow-md w-full text-center transition-all grid place-items-center h-56 rounded-lg p-6 hover:scale-105'
                   >
@@ -108,7 +116,7 @@ function Students() {
                     <TiUserAdd size={25} className='ml-1' />
                   </button>
                   <button
-                    onClick={handleDeleteClassroom}
+                    onClick={() => setConfirmation(true)}
                     className='flex items-center border-2 opacity-70  p-2 hover:opacity-100 hover:shadow-sm'
                   >
                     Eliminar curso
@@ -141,7 +149,7 @@ function Students() {
         show={confirmation}
         onClose={() => setConfirmation(false)}
         text={'Estas seguro de eliminar el curso'}
-        onConfirm={() => deleteClassroom(selectedClassroom._id)}
+        onConfirm={handleDeleteClassroom}
       />
     </Layout>
   )

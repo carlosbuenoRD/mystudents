@@ -1,15 +1,18 @@
 import Layout from '@components/Layout/Layout'
-import { useCTX, useStudentDispatch } from '../hooks/useContextHook'
 import React, { useEffect, useState } from 'react'
 import { calificationSubjects } from '@utils/data'
+import { toast } from 'react-toastify'
+import { useCTX, useStudentDispatch } from '../hooks/useContextHook'
 import getLiteral from '@utils/getLiteral'
 import SearchInput from '@components/SearchInput'
 import { GrUpdate } from 'react-icons/gr'
+import Loading from '@components/Loading'
 
 function Calificaciones() {
   const [subject, setSubject] = useState('Lengua Española')
   const [classroom, setClassroom] = useState('')
   const [search, setSearch] = useState('')
+  const [loading, setLoading] = useState(false)
   const [calification, setCalification] = useState({
     _id: '',
     notebook: 0,
@@ -34,7 +37,7 @@ function Calificaciones() {
 
   useEffect(() => {
     if (classroom) {
-      getAllGrades(subject, classroom)
+      getGrades()
     }
   }, [subject, classroom])
 
@@ -42,9 +45,20 @@ function Calificaciones() {
     setCalification((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleCalification = () => {
-    updateGrades(calification)
-    clearCalification()
+  const getGrades = async () => {
+    setLoading(true)
+    await getAllGrades(subject, classroom)
+    setLoading(false)
+  }
+
+  const handleCalification = async () => {
+    try {
+      await updateGrades(calification)
+      toast.success('Calificacion actualizada!')
+      clearCalification()
+    } catch (error) {
+      toast.error('Hubo un error!')
+    }
   }
 
   const fillCalification = (grade) => {
@@ -133,75 +147,85 @@ function Calificaciones() {
         </div>
       </div>
 
-      {/* Students grades */}
-      <ul>
-        {califications
-          ?.filter((i) => i.student?.classroom === classroom)
-          .filter(
-            (i) =>
-              i.student?.name.toLowerCase().includes(search.toLowerCase()) ||
-              i.student?.lastname.toLowerCase().includes(search.toLowerCase())
-          )
-          .map((grade) => (
-            <li
-              key={grade._id}
-              id={grade.student.name}
-              onClick={() => fillCalification(grade)}
-              className={`py-4 flex justify-between items-center border-b hover:opacity-100 px-4 ${
-                calification._id === grade._id
-                  ? 'opacity-100 border border-blue-400 rounded-md'
-                  : 'opacity-50'
-              }`}
-            >
-              <p className='text-2xl font-bold self-center w-4/12'>
-                {grade.student?.name} {grade.student?.lastname}
-              </p>
-              <div className='flex flex-1'>
-                {calificationSubjects.map((i) => (
-                  <div
-                    key={i.title}
-                    className='flex flex-col items-center ml-4'
-                  >
-                    <label>{i.title.toUpperCase()}</label>
-                    <input
-                      type='number'
-                      name={i.title}
-                      onChange={handleChange}
-                      className='border py-4 text-center w-16'
-                      value={
-                        calification._id === grade._id
-                          ? calification[i.title]
-                          : grade[i.title]
-                          ? grade[i.title]
-                          : 0
-                      }
-                      disabled={grade._id !== calification._id}
-                    />
-                    <p className='text-xs'>MAX {i.max}</p>
-                  </div>
-                ))}
-              </div>
-              <div className='flex'>
-                <div className='flex flex-col text-center items-end ml-4'>
-                  <label className='uppercase'>Final</label>
-                  <p className='border py-4 text-center h-16 w-16'>
-                    {getLiteral(grade)}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {/* Students grades */}
+          <ul>
+            {califications
+              ?.filter((i) => i.student?.classroom === classroom)
+              .filter(
+                (i) =>
+                  i.student?.name
+                    .toLowerCase()
+                    .includes(search.toLowerCase()) ||
+                  i.student?.lastname
+                    .toLowerCase()
+                    .includes(search.toLowerCase())
+              )
+              .map((grade) => (
+                <li
+                  key={grade._id}
+                  id={grade.student.name}
+                  onClick={() => fillCalification(grade)}
+                  className={`py-4 flex justify-between items-center border-b hover:opacity-100 px-4 ${
+                    calification._id === grade._id
+                      ? 'opacity-100 border border-blue-400 rounded-md'
+                      : 'opacity-50'
+                  }`}
+                >
+                  <p className='text-2xl font-bold self-center w-4/12'>
+                    {grade.student?.name} {grade.student?.lastname}
                   </p>
-                </div>
-                <div className='flex flex-col text-center items-end ml-4'>
-                  <label className='uppercase'>Update</label>
-                  <button
-                    disabled={grade._id !== calification._id}
-                    onClick={handleCalification}
-                    className='border grid place-items-center bg-blue-500 rounded-lg text-center h-16 w-16'
-                  >
-                    <GrUpdate size={25} />
-                  </button>
-                </div>
-              </div>
-            </li>
-          ))}
-      </ul>
+                  <div className='flex flex-1'>
+                    {calificationSubjects.map((i) => (
+                      <div
+                        key={i.title}
+                        className='flex flex-col items-center ml-4'
+                      >
+                        <label>{i.title.toUpperCase()}</label>
+                        <input
+                          type='number'
+                          name={i.title}
+                          onChange={handleChange}
+                          className='border py-4 text-center w-16'
+                          value={
+                            calification._id === grade._id
+                              ? calification[i.title]
+                              : grade[i.title]
+                              ? grade[i.title]
+                              : 0
+                          }
+                          disabled={grade._id !== calification._id}
+                        />
+                        <p className='text-xs'>MAX {i.max}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className='flex'>
+                    <div className='flex flex-col text-center items-end ml-4'>
+                      <label className='uppercase'>Final</label>
+                      <p className='border py-4 text-center h-16 w-16'>
+                        {getLiteral(grade)}
+                      </p>
+                    </div>
+                    <div className='flex flex-col text-center items-end ml-4'>
+                      <label className='uppercase'>Update</label>
+                      <button
+                        disabled={grade._id !== calification._id}
+                        onClick={handleCalification}
+                        className='border grid place-items-center bg-blue-500 rounded-lg text-center h-16 w-16'
+                      >
+                        <GrUpdate size={25} />
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+          </ul>
+        </>
+      )}
     </Layout>
   )
 }

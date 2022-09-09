@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useStudentDispatch, useCTX } from '../../hooks/useContextHook'
 import ReactDom from 'react-dom'
+import { toast } from 'react-toastify'
 import getLiteral from '@utils/getLiteral'
 
 // Icons
@@ -33,14 +34,18 @@ function ViewStudent({ show, onClose, student }) {
     setLastname(student.lastname)
   }
 
-  const handleUpdateStudent = () => {
-    updateStudent({
-      _id: student._id,
-      name,
-      lastname,
-      classroom,
-    })
-    setEdit(false)
+  const handleUpdateStudent = async () => {
+    try {
+      await updateStudent({
+        _id: student._id,
+        name,
+        lastname,
+        classroom,
+      })
+      toast.info('Estudiante Actualizado!')
+      setEdit(false)
+      onClose()
+    } catch (error) {}
   }
 
   const content = show ? (

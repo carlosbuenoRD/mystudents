@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useStudentDispatch } from '../../hooks/useContextHook'
+import { toast } from 'react-toastify'
 
 // Components
 import Confirmation from '@components/Confirmation'
@@ -20,9 +21,18 @@ function StudentsTable({ students }) {
     setShow(true)
   }
 
-  const handleDeleteStudent = (student) => {
+  const handleDeleteConfirmation = (student) => {
     setSelectedStudent(student)
     setConfirmation(true)
+  }
+
+  const handleDeleteStudent = async (student) => {
+    try {
+      await deleteStudent(selectedEstudent._id)
+      toast.success('Estudiante eliminado!')
+    } catch (error) {
+      toast.error('Hubo un problema!')
+    }
   }
 
   return (
@@ -62,7 +72,7 @@ function StudentsTable({ students }) {
                 <td className='py-4 px-6'>{student.classroom?.name}</td>
                 <td className='py-4 px-6 text-center'>
                   <button
-                    onClick={() => handleDeleteStudent(student)}
+                    onClick={() => handleDeleteConfirmation(student)}
                     className='font-medium z-50 text-blue-600 dark:text-blue-500 hover:underline'
                   >
                     <TbTrash className='ml-1 hover:text-red-500' size={20} />
@@ -85,7 +95,7 @@ function StudentsTable({ students }) {
       <Confirmation
         show={confirmation}
         onClose={() => setConfirmation(false)}
-        onConfirm={() => deleteStudent(selectedEstudent._id)}
+        onConfirm={handleDeleteStudent}
         success={false}
         text='Estas seguro de eliminar al estudiantes?'
       />

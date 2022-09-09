@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useStudentDispatch } from '../../hooks/useContextHook'
 import ReactDom from 'react-dom'
+import { toast } from 'react-toastify'
+import { useStudentDispatch } from '../../hooks/useContextHook'
 
 // Icons
 import { AiOutlineClose } from 'react-icons/ai'
@@ -15,9 +16,18 @@ function CreateClassroom({ show, onClose }) {
     setIsBrowser(true)
   }, [])
 
-  const handleCreateClassroom = () => {
-    createClassroom({ name })
-    onClose()
+  const handleCreateClassroom = async () => {
+    try {
+      if (!name) {
+        toast.error('Escribe el nombre del curso!')
+        return
+      }
+      await createClassroom({ name })
+      toast.success('Nuevo curso agregado!')
+      onClose()
+    } catch (error) {
+      toast.error('Hubo un problema!')
+    }
   }
 
   const content = show ? (

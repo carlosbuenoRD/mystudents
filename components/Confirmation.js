@@ -11,7 +11,7 @@ function Confirmation({ show, onClose, success, text, onConfirm }) {
     setIsBrowser(true)
   }, [])
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     onConfirm()
     onClose()
   }
