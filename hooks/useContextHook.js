@@ -39,6 +39,8 @@ export const useStudentDispatch = () => {
     [dispatch]
   )
 
+  // grades
+
   const getAllGrades = useCallback(
     async (subject) => {
       const { data } = await axios.get(`/api/califications?subject=${subject}`)
@@ -58,6 +60,26 @@ export const useStudentDispatch = () => {
     [dispatch]
   )
 
+  // CHECKLIST
+
+  const getAllList = useCallback(
+    async (subject, date) => {
+      const { data } = await axios.get(
+        `/api/checklist?subject=${subject}&date=${date}`
+      )
+      dispatch({ type: studentActions.GET_ALL_CHECKLIST, payload: data })
+    },
+    [dispatch]
+  )
+
+  const createList = useCallback(
+    async (payload) => {
+      const { data } = await axios.post('/api/checklist', payload)
+      dispatch({ type: studentActions.CREATE_CHECKLIST, payload: data })
+    },
+    [dispatch]
+  )
+
   return useMemo(
     () => ({
       getAll,
@@ -66,6 +88,8 @@ export const useStudentDispatch = () => {
       deleteStudent,
       updateStudent,
       updateGrades,
+      getAllList,
+      createList,
     }),
     [dispatch]
   )

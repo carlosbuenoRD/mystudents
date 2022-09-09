@@ -1,6 +1,6 @@
 .modal_overlay {
   z-index: 100;
-  position: absolute;
+  position: fixed;
   display: grid;
   place-items: center;
   top: 0;
@@ -27,7 +27,13 @@
 }
 
 .modal_card__body {
-  margin: 12px 0
+  margin: 12px 0;
+  max-height: 75vh;
+  overflow-y: scroll;
+}
+
+.modal_card__body::-webkit-scrollbar {
+  display: none;
 }
 
 .modal_card__footer {

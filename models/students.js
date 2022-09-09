@@ -14,6 +14,24 @@ const calificationSchema = new Schema({
   },
 })
 
+const checkListSchema = new Schema(
+  {
+    subject: String,
+    list: [
+      {
+        student: {
+          type: Schema.Types.ObjectId,
+          ref: 'students',
+        },
+        present: Boolean,
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+)
+
 const studentSchema = new Schema({
   name: {
     type: String,
@@ -28,11 +46,8 @@ const studentSchema = new Schema({
     required: true,
   },
   calification: {
-    notebook: Number,
-    homework: Number,
-    Practice: Number,
-    participation: Number,
-    test: Number,
+    type: Schema.Types.ObjectId,
+    ref: 'califications',
   },
 })
 
@@ -41,3 +56,6 @@ export const Student =
 
 export const Calification =
   mongoose.models.califications || model('califications', calificationSchema)
+
+export const CheckList =
+  mongoose.models.checklist || model('checklist', checkListSchema)

@@ -1,12 +1,72 @@
-import Layout from '@components/Layout/Layout'
-import { students, classrooms } from '@utils/data'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useCTX, useStudentDispatch } from '../hooks/useContextHook'
+import { classrooms } from '@utils/data'
+
+//Icons
 import { AiOutlineClose } from 'react-icons/ai'
 import { BiCheck } from 'react-icons/bi'
 
+//Components
+import Confirmation from '@components/Confirmation'
+import Layout from '@components/Layout/Layout'
+import ViewCheckList from '@components/Modal/ViewCheckList'
+import completedList from '@utils/completedList'
+import formatDate from '@utils/formatDate'
+
 function CheckList() {
-  const [subject, setSubject] = useState(null)
-  console.log(Array.from(classrooms))
+  const [viewList, setViewList] = useState(false)
+  const [subject, setSubject] = useState('Lengua Española')
+  const [history, setHistory] = useState(true)
+  const [confirmation, setConfirmation] = useState(false)
+  const [list, setList] = useState([])
+  const [selectedList, setSelectedList] = useState({})
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const { students, allCheckList } = useCTX()
+  const { getAll, getAllList, createList } = useStudentDispatch()
+
+  useEffect(() => {
+    getAll()
+  }, [])
+
+  useEffect(() => {
+    setList([])
+    getAllList(subject, date)
+  }, [history, subject, date])
+
+  const handleListChange = (student, present) => {
+    const exist = list.findIndex((i) => i.student === student._id)
+    if (exist !== -1) {
+      setList(
+        list.map((i) =>
+          i.student === student._id ? { student: i.student, present } : i
+        )
+      )
+    } else {
+      setList((prev) => [...prev, { student: student._id, present }])
+    }
+  }
+
+  const handleViewList = (list) => {
+    setViewList(true)
+    setSelectedList(list)
+  }
+
+  const chooseColor = (student) => {
+    let curr = list.find((i) => i.student === student._id)
+    if (curr) {
+      if (curr.present) {
+        return 'bg-green-400/60'
+      } else {
+        return 'bg-red-400/80'
+      }
+    }
+  }
+
+  const handleCreateList = () => {
+    createList({ list, subject })
+    setHistory(!history)
+  }
+
   return (
     <Layout title='Lista'>
       <div className='flex my-4'>
@@ -14,7 +74,7 @@ function CheckList() {
           <p className='text-lg mt-2'>
             Proxima clase <i className='font-medium'>10:00am</i>
           </p>
-          <h1 className='text-3xl mb-2 font-bold'>Lengua Española, 4A</h1>
+          <h1 className='text-3xl mb-2 font-bold'>{subject}, 4A</h1>
         </div>
         <div className='self-end flex shadow-sm pb-2 items-center justify-between flex-1'>
           <div className='flex'>
@@ -26,10 +86,22 @@ function CheckList() {
                 ))}
               </select>
             </div>
-            <input type='date' className='border p-1 rounded-md' />
+            <input
+              type='date'
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className='border p-1 rounded-md'
+            />
           </div>
-          <button className='border border-green-500 p-2 transition-all rounded-md font-medium font-mono hover:bg-green-400/80'>
-            Pasar Lista
+          <button
+            onClick={() => setHistory(!history)}
+            className={`border p-2 transition-all rounded-md font-medium font-mono ${
+              history
+                ? 'border-green-500 hover:bg-green-400/80'
+                : 'border-red-500 hover:bg-red-400/80'
+            }`}
+          >
+            {history ? 'Pasar Lista' : 'Cancelar'}
           </button>
         </div>
       </div>
@@ -37,9 +109,9 @@ function CheckList() {
         <div className='w-1/4 mr-6'>
           <div className='border-bp-4 sticky top-0'>
             <button
-              onClick={() => setSubject('Español')}
+              onClick={() => setSubject('Lengua Española')}
               className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-70 font-bold hover:bg-red-400 ${
-                subject === 'Español'
+                subject === 'Lengua Española'
                   ? 'scale-105 text-2xl bg-red-400'
                   : 'text-lg bg-red-400/70'
               }`}
@@ -47,9 +119,9 @@ function CheckList() {
               Lengua Española
             </button>
             <button
-              onClick={() => setSubject('Sociales')}
+              onClick={() => setSubject('Ciencias Sociales')}
               className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-700 font-bold hover:bg-yellow-400 ${
-                subject === 'Sociales'
+                subject === 'Ciencias Sociales'
                   ? 'scale-105 text-2xl bg-yellow-400'
                   : 'text-lg bg-yellow-400/70 '
               }`}
@@ -57,9 +129,9 @@ function CheckList() {
               Ciencias Sociales
             </button>
             <button
-              onClick={() => setSubject('Naturales')}
+              onClick={() => setSubject('Ciencias Naturales')}
               className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-700 font-bold hover:bg-green-400 ${
-                subject === 'Naturales'
+                subject === 'Ciencias Naturales'
                   ? 'scale-105 text-2xl bg-green-400'
                   : 'text-lg bg-green-400/70'
               }`}
@@ -78,41 +150,95 @@ function CheckList() {
             </button>
           </div>
         </div>
-        {/* List */}
-        <div className='flex-1 h-full overflow-y-scroll'>
-          {students.map((student) => (
-            <div className='grid grid-cols-2  border-b p-3 hover:bg-slate-100 '>
-              <p className='text-xl self-center'>
-                {student.name} {student.lastname}
-              </p>
-              <div className=' justify-self-end pr-4'>
-                <button className='border-2 mr-4 border-green-400 text-green-500 rounded-full p-1'>
-                  <BiCheck size={25} />
-                </button>
-                <button className='border-2 border-red-400 text-red-500 rounded-full p-1'>
-                  <AiOutlineClose size={25} />
-                </button>
+
+        {history ? (
+          <>
+            {allCheckList?.length === 0 ? (
+              <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
+                No tienes pases de lista!
               </div>
-            </div>
-          ))}
-        </div>
-        {/* List */}
-        {/* <div className='flex-1 h-full overflow-y-scroll'>
-          {students.map((student) => (
-            <div className='grid grid-cols-4 cursor-pointer border-b p-3 hover:bg-slate-100 '>
-              <p>25/10/2022</p>
-              <p>11:12am</p>
-              <p>{student.classroom}</p>
-              <div className='flex items-center justify-self-end pr-4'>
-                completado
-                <button className='border-2 mr-4 ml-1 border-green-400 text-green-500 rounded-full p-1'>
-                  <BiCheck size={25} />
-                </button>
+            ) : (
+              <div className='flex-1 h-full overflow-y-scroll'>
+                {allCheckList?.map((list) => (
+                  <div
+                    onClick={() => handleViewList(list)}
+                    className='grid grid-cols-4 cursor-pointer border-b p-3 hover:bg-slate-100 '
+                  >
+                    <p>{formatDate(list.createdAt, 'date')}</p>
+                    <p>{formatDate(list.createdAt, 'time')}</p>
+                    <p>{list.subject}</p>
+                    <div className='flex items-center justify-self-end pr-4'>
+                      {completedList(list) ? 'Completado' : 'Incompleto'}
+                      <div
+                        className={`border-2 mr-4 ml-1 rounded-full p-1 ${
+                          completedList(list)
+                            ? 'border-green-400'
+                            : 'border-red-400'
+                        }`}
+                      >
+                        {completedList(list) ? (
+                          <BiCheck size={25} />
+                        ) : (
+                          <AiOutlineClose size={25} />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
-        </div> */}
+            )}
+          </>
+        ) : (
+          <div className='flex-1 h-full overflow-y-scroll'>
+            {students.map((student) => (
+              <div
+                className={`grid grid-cols-2 border-b p-3 ${chooseColor(
+                  student
+                )}`}
+              >
+                <p className='text-xl self-center'>
+                  {student.name} {student.lastname}
+                </p>
+                <div className=' justify-self-end pr-4'>
+                  <button
+                    onClick={() => handleListChange(student, true)}
+                    className='border-2 mr-4 border-green-400 text-green-500 rounded-full p-1'
+                  >
+                    <BiCheck size={25} />
+                  </button>
+                  <button
+                    onClick={() => handleListChange(student, false)}
+                    className='border-2 border-red-400 text-red-500 rounded-full p-1'
+                  >
+                    <AiOutlineClose size={25} />
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              onClick={() => setConfirmation(true)}
+              className='text-center w-full py-4 bg-green-400/80 hover:bg-green-400 text-lg font-medium font-mono'
+            >
+              Terminar
+            </button>
+          </div>
+        )}
       </div>
+      <ViewCheckList
+        show={viewList}
+        onClose={() => {
+          setViewList(false)
+          setSelectedList({})
+        }}
+        list={selectedList}
+      />
+      <Confirmation
+        show={confirmation}
+        onClose={() => setConfirmation(false)}
+        onConfirm={handleCreateList}
+        text='Estas seguro de terminar la lista?'
+        success
+      />
     </Layout>
   )
 }

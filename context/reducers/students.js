@@ -1,7 +1,9 @@
 export const studentActions = {
   GET_ALL_STUDENTS: 'GET_ALL_STUDENTS',
   GET_ALL_CALIFICATIONS: 'GET_ALL_CALIFICATIONS',
+  GET_ALL_CHECKLIST: 'GET_ALL_CHECKLIST',
   CREATE_STUDENT: 'CREATE_STUDENT',
+  CREATE_CHECKLIST: 'CREATE_CHECKLIST',
   DELETE_STUDENT: 'DELETE_STUDENT',
   UPDATE_STUDENT: 'UPDATE_STUDENT',
   UPDATE_CALIFICATION: 'UPDATE_CALIFICATION',
@@ -52,6 +54,20 @@ export default function studentReducer(state, { type, payload }) {
       return {
         ...state,
         califications: [...updatedCalification],
+      }
+
+    // CheckList
+
+    case studentActions.GET_ALL_CHECKLIST:
+      return {
+        ...state,
+        allCheckList: payload,
+      }
+
+    case studentActions.CREATE_CHECKLIST:
+      return {
+        ...state,
+        allCheckList: [...state.allCheckList, payload],
       }
 
     default:
