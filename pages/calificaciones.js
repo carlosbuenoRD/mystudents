@@ -79,43 +79,43 @@ function Calificaciones() {
 
   return (
     <Layout title={'Calificaciones'}>
-      <div className='border-b flex p-4 sticky top-0 z-50'>
+      <div className='flex p-2 lg:p-4 sticky top-0 z-50 text-lg md:text-xl lg:text-2xl'>
         <button
           onClick={() => setSubject('Lengua Española')}
-          className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-70 font-bold hover:bg-red-400 ${
+          className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm hover:bg-red-400 ${
             subject === 'Lengua Española'
-              ? 'scale-105 text-2xl bg-red-400'
-              : 'text-lg bg-red-400/70'
+              ? 'scale-105 font-bold bg-red-400'
+              : 'text-sm md:text-base lg:text-lg bg-red-400/70'
           }`}
         >
           Lengua Española
         </button>
         <button
           onClick={() => setSubject('Ciencias Sociales')}
-          className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-700 font-bold hover:bg-yellow-400 ${
+          className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm hover:bg-yellow-400 ${
             subject === 'Ciencias Sociales'
-              ? 'scale-105 text-2xl bg-yellow-400'
-              : 'text-lg bg-yellow-400/70 '
+              ? 'scale-105 font-bold bg-yellow-400'
+              : 'text-sm md:text-base lg:text-lg bg-yellow-400/70 '
           }`}
         >
           Ciencias Sociales
         </button>
         <button
           onClick={() => setSubject('Ciencias Naturales')}
-          className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-700 font-bold hover:bg-green-400 ${
+          className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm hover:bg-green-400 ${
             subject === 'Ciencias Naturales'
-              ? 'scale-105 text-2xl bg-green-400'
-              : 'text-lg bg-green-400/70'
+              ? 'scale-105 font-bold bg-green-400'
+              : 'text-sm md:text-base lg:text-lg bg-green-400/70'
           }`}
         >
           Ciencias Naturales
         </button>
         <button
           onClick={() => setSubject('Matematicas')}
-          className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-700 font-bold hover:bg-blue-400 ${
+          className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm hover:bg-blue-400 ${
             subject === 'Matematicas'
-              ? 'scale-105 text-2xl bg-blue-400'
-              : 'text-lg bg-blue-400/70'
+              ? 'scale-105 font-bold bg-blue-400'
+              : 'text-sm md:text-base lg:text-lg bg-blue-400/70'
           }`}
         >
           Matematicas
@@ -123,12 +123,12 @@ function Calificaciones() {
       </div>
 
       {/* Filters */}
-      <div className='flex-1 mb-8 mt-4'>
+      <div className='px-2 md:px-0 flex-1 mb-8 border-b pb-2'>
         <div className='flex items-end'>
           <SearchInput input={search} setInput={setSearch} />
 
-          <div className='ml-6'>
-            <label className='block' htmlFor='semester'>
+          <div className='ml-6 flex items-center'>
+            <label className='block md:mr-2' htmlFor='semester'>
               Curso
             </label>
             <select
@@ -150,7 +150,7 @@ function Calificaciones() {
       {loading ? (
         <Loading />
       ) : (
-        <>
+        <div className='px-2 md:px-0'>
           {/* Students grades */}
           <ul>
             {califications
@@ -169,27 +169,27 @@ function Calificaciones() {
                   key={grade._id}
                   id={grade.student.name}
                   onClick={() => fillCalification(grade)}
-                  className={`py-4 flex justify-between items-center border-b hover:opacity-100 px-4 ${
+                  className={`py-4 flex flex-col lg:flex-row justify-between items-center border-b hover:opacity-100 px-4 ${
                     calification._id === grade._id
                       ? 'opacity-100 border border-blue-400 rounded-md'
                       : 'opacity-50'
                   }`}
                 >
-                  <p className='text-2xl font-bold self-center w-4/12'>
+                  <p className='mb-4 lg:mb-0 text-lg lg:text-xl xl:text-2xl font-bold self-center lg:w-1/4'>
                     {grade.student?.name} {grade.student?.lastname}
                   </p>
-                  <div className='flex flex-1'>
+                  <div className='grid grid-cols-3 md:flex flex-1 justify-center'>
                     {calificationSubjects.map((i) => (
                       <div
                         key={i.title}
-                        className='flex flex-col items-center ml-4'
+                        className='flex flex-col items-center mb-4 ml-4 text-xs xl:text-sm'
                       >
                         <label>{i.title.toUpperCase()}</label>
                         <input
                           type='number'
                           name={i.title}
                           onChange={handleChange}
-                          className='border py-4 text-center w-16'
+                          className='border md:text-lg py-2 xl:py-4 text-center w-8 md:w-12  xl:w-16'
                           value={
                             calification._id === grade._id
                               ? calification[i.title]
@@ -204,18 +204,18 @@ function Calificaciones() {
                     ))}
                   </div>
                   <div className='flex'>
-                    <div className='flex flex-col text-center items-end ml-4'>
+                    <div className='flex flex-col-reverse items-center lg:flex-col text-center lg:items-end ml-4'>
                       <label className='uppercase'>Final</label>
-                      <p className='border py-4 text-center h-16 w-16'>
+                      <p className='border py-1 md:py-2 lg:py-3 xl:py-4 text-center h-10 lg:h-12 xl:h-16 w-10 lg:w-12 xl:w-16'>
                         {getLiteral(grade)}
                       </p>
                     </div>
-                    <div className='flex flex-col text-center items-end ml-4'>
+                    <div className='flex flex-col-reverse items-center lg:flex-col text-center md:items-end ml-4'>
                       <label className='uppercase'>Update</label>
                       <button
                         disabled={grade._id !== calification._id}
                         onClick={handleCalification}
-                        className='border grid place-items-center bg-blue-500 rounded-lg text-center h-16 w-16'
+                        className='border grid place-items-center bg-blue-500 rounded-lg text-center h-10 lg:h-12 xl:h-16 w-10 lg:w-12 xl:w-16'
                       >
                         <GrUpdate size={25} />
                       </button>
@@ -224,7 +224,7 @@ function Calificaciones() {
                 </li>
               ))}
           </ul>
-        </>
+        </div>
       )}
     </Layout>
   )
