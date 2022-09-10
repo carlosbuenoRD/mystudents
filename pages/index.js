@@ -28,7 +28,7 @@ export default function Home({ studentsCount, classroomsCount }) {
   return (
     <Layout>
       <section className='grid md:grid-cols-2 my-4 gap-4 lg:gap-6 xl:gap-8'>
-        <div className='h-60  bg-orange-400/70 p-6 rounded-md shadow-sm'>
+        <div className=' md:60  bg-orange-400/70 p-6 rounded-md shadow-sm'>
           <div className='flex justify-end'>
             <div className='w-10 h-10 lg:w-14 lg:h-14 text-xl font-medium font-mono rounded-full bg-slate-200/90 grid place-items-center'>
               {new Date().getDate()}

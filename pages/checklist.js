@@ -12,6 +12,7 @@ import Layout from '@components/Layout/Layout'
 import ViewCheckList from '@components/Modal/ViewCheckList'
 import completedList from '@utils/completedList'
 import formatDate from '@utils/formatDate'
+import SubjectButton from '@components/subjectButton'
 
 function CheckList() {
   const [viewList, setViewList] = useState(false)
@@ -94,14 +95,17 @@ function CheckList() {
 
   return (
     <Layout title='Lista'>
-      <div className='flex my-4'>
-        <div className='w-1/4 mr-6 border shadow-sm rounded-md p-2 text-slate-700'>
+      <div className='flex flex-col lg:flex-row my-4'>
+        <div className='hidden lg:block w-2/6 mr-6 border shadow-sm rounded-md p-2 text-slate-700'>
           <p className='text-lg mt-2'>
             Proxima clase <i className='font-medium'>10:00am</i>
           </p>
-          <h1 className='text-3xl mb-2 font-bold'>{subject}, 4A</h1>
+          <h1 className='text-2xl mb-2 font-bold'>{subject}, 4A</h1>
         </div>
-        <div className='self-end flex shadow-sm pb-2 items-center justify-between flex-1'>
+        <div className='lg:hidden'>
+          <SubjectButton subject={subject} setSubject={setSubject} row />
+        </div>
+        <div className='px-2 md:px-0 lg:self-end flex shadow-sm pb-2 items-center justify-between flex-1'>
           <div className='flex'>
             <div className='mr-4'>
               <label>Curso</label>
@@ -120,12 +124,12 @@ function CheckList() {
               type='date'
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className='border p-1 rounded-md'
+              className='border p-1 rounded-md mr-2'
             />
           </div>
           <button
             onClick={() => setHistory(!history)}
-            className={`border p-2 transition-all rounded-md font-medium font-mono ${
+            className={`border p-2 transition-all rounded-md text-xs md:text-base font-medium font-mono ${
               history
                 ? 'border-green-500 hover:bg-green-400/80'
                 : 'border-red-500 hover:bg-red-400/80'
@@ -135,50 +139,9 @@ function CheckList() {
           </button>
         </div>
       </div>
-      <div className='flex h-[65vh]'>
-        <div className='w-1/4 mr-6'>
-          <div className='border-bp-4 sticky top-0'>
-            <button
-              onClick={() => setSubject('Lengua Española')}
-              className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-70 font-bold hover:bg-red-400 ${
-                subject === 'Lengua Española'
-                  ? 'scale-105 text-2xl bg-red-400'
-                  : 'text-lg bg-red-400/70'
-              }`}
-            >
-              Lengua Española
-            </button>
-            <button
-              onClick={() => setSubject('Ciencias Sociales')}
-              className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-700 font-bold hover:bg-yellow-400 ${
-                subject === 'Ciencias Sociales'
-                  ? 'scale-105 text-2xl bg-yellow-400'
-                  : 'text-lg bg-yellow-400/70 '
-              }`}
-            >
-              Ciencias Sociales
-            </button>
-            <button
-              onClick={() => setSubject('Ciencias Naturales')}
-              className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-700 font-bold hover:bg-green-400 ${
-                subject === 'Ciencias Naturales'
-                  ? 'scale-105 text-2xl bg-green-400'
-                  : 'text-lg bg-green-400/70'
-              }`}
-            >
-              Ciencias Naturales
-            </button>
-            <button
-              onClick={() => setSubject('Matematicas')}
-              className={`w-full transition-all h-20 mb-3 rounded-md shadow-sm text-slate-700 font-bold hover:bg-blue-400 ${
-                subject === 'Matematicas'
-                  ? 'scale-105 text-2xl bg-blue-400'
-                  : 'text-lg bg-blue-400/70'
-              }`}
-            >
-              Matematicas
-            </button>
-          </div>
+      <div className='px-2 md:px-0 flex flex-col lg:flex-row lg:h-[65vh]'>
+        <div className='hidden lg:block w-2/6 mr-6'>
+          <SubjectButton subject={subject} setSubject={setSubject} />
         </div>
 
         {history ? (
@@ -196,10 +159,15 @@ function CheckList() {
                     className='grid grid-cols-4 cursor-pointer border-b p-3 hover:bg-slate-100 '
                   >
                     <p>{formatDate(list.createdAt, 'date')}</p>
-                    <p>{formatDate(list.createdAt, 'time')}</p>
-                    <p>{list.subject}</p>
+                    <p className='text-end md:text-start'>
+                      {formatDate(list.createdAt, 'time')}
+                    </p>
+                    <p className='hidden md:block'>{list.subject}</p>
+                    <p className='md:hidden'></p>
                     <div className='flex items-center justify-self-end pr-4'>
-                      {completedList(list) ? 'Completado' : 'Incompleto'}
+                      <p className='hidden md:block'>
+                        {completedList(list) ? 'Completado' : 'Incompleto'}
+                      </p>
                       <div
                         className={`border-2 mr-4 ml-1 rounded-full p-1 ${
                           completedList(list)
@@ -228,21 +196,21 @@ function CheckList() {
                   student
                 )}`}
               >
-                <p className='text-xl self-center'>
+                <p className='md:text-lg lg:text-xl self-center'>
                   {student.name} {student.lastname}
                 </p>
-                <div className=' justify-self-end pr-4'>
+                <div className=' justify-self-end pr-4 text-2xl'>
                   <button
                     onClick={() => handleListChange(student, true)}
                     className='border-2 mr-4 border-green-400 text-green-500 rounded-full p-1'
                   >
-                    <BiCheck size={25} />
+                    <BiCheck />
                   </button>
                   <button
                     onClick={() => handleListChange(student, false)}
                     className='border-2 border-red-400 text-red-500 rounded-full p-1'
                   >
-                    <AiOutlineClose size={25} />
+                    <AiOutlineClose />
                   </button>
                 </div>
               </div>
