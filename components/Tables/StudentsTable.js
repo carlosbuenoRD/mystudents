@@ -38,8 +38,8 @@ function StudentsTable({ students }) {
   return (
     <div className='overflow-x-auto relative shadow-md sm:rounded-lg'>
       {students.length > 0 ? (
-        <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
+        <table className='w-full text-sm text-left text-gray-500'>
+          <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
             <tr>
               <th scope='col' className='py-3 px-6'>
                 Nombre
@@ -57,14 +57,11 @@ function StudentsTable({ students }) {
           </thead>
           <tbody>
             {students.map((student) => (
-              <tr
-                key={student._id}
-                className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-              >
+              <tr key={student._id} className='bg-white border-b'>
                 <th
                   onClick={() => handleViewStudent(student)}
                   scope='row'
-                  className='py-4 px-6 font-medium underline cursor-pointer text-gray-900 whitespace-nowrap dark:text-white'
+                  className='px-4 py-4 md:px-6 font-medium underline cursor-pointer text-gray-900 whitespace-nowrap'
                 >
                   {student.name}
                 </th>
@@ -73,7 +70,7 @@ function StudentsTable({ students }) {
                 <td className='py-4 px-6 text-center'>
                   <button
                     onClick={() => handleDeleteConfirmation(student)}
-                    className='font-medium z-50 text-blue-600 dark:text-blue-500 hover:underline'
+                    className='font-medium z-50 text-blue-600 hover:underline'
                   >
                     <TbTrash className='ml-1 hover:text-red-500' size={20} />
                   </button>
@@ -83,7 +80,7 @@ function StudentsTable({ students }) {
           </tbody>
         </table>
       ) : (
-        <div className='bg-red-400 py-6 text-center text-xl font-medium font-mono'>
+        <div className='bg-red-400 py-4 lg:py-6 text-center text-xl font-medium font-mono'>
           No tienes estudiantes agregue uno!
         </div>
       )}

@@ -64,9 +64,9 @@ function Students() {
         <>
           {!selectedClassroom ? (
             <>
-              <div className='my-4 flex justify-between items-center mb-6 border-b pb-2'>
+              <div className='my-4 flex justify-between items-center mb-3 md:mb-6 border-b pb-2 px-2 md:px-0'>
                 <div>
-                  <h1 className='text-6xl'>Cursos</h1>
+                  <h1 className='text-4xl lg:text-5xl xl:text-6xl'>Cursos</h1>
                 </div>
                 <button
                   onClick={() => setCreateClass(true)}
@@ -76,7 +76,7 @@ function Students() {
                   <CgFolderAdd size={25} className='ml-2' />
                 </button>
               </div>
-              <div className='grid grid-cols-3 gap-10'>
+              <div className='grid md:grid-cols-3 gap-4 md:gap-10 px-2'>
                 {classrooms?.map((i) => (
                   <div
                     key={i._id}
@@ -95,31 +95,31 @@ function Students() {
               </div>
             </>
           ) : (
-            <>
+            <div className='px-2 md:p-0'>
               <div className='my-4 flex justify-between items-center border-b pb-2 mb-4'>
-                <div className='flex items-center'>
+                <div className='flex items-center mr-2'>
                   <div
-                    className='flex items-center text-4xl mr-8 cursor-pointer'
+                    className='flex items-center text-2xl lg:text-4xl mr-3 md:mr-6 lg:mr-8 cursor-pointer'
                     onClick={handleClearStudents}
                   >
-                    <BiLeftArrowAlt className='-mb-1 mr-1' />
-                    <h1>Curso {selectedClassroom.name}</h1>
+                    <BiLeftArrowAlt className='-mb-1 mr-1 uppercase' />
+                    <h1>{selectedClassroom.name}</h1>
                   </div>
                   <SearchInput input={search} setInput={setSearch} />
                 </div>
                 <div className='flex'>
                   <button
                     onClick={() => setCreateStudent(true)}
-                    className='flex items-center border-2 mr-4 opacity-70 p-2 hover:opacity-100 hover:shadow-md'
+                    className='flex items-center border-2 rounded-full md:rounded-none mr-2 md:mr-4 opacity-70 p-1 lg:p-2 hover:opacity-100 hover:shadow-md'
                   >
-                    Agregar Estudiante
+                    <p className='hidden md:block'>Agregar Estudiante</p>
                     <TiUserAdd size={25} className='ml-1' />
                   </button>
                   <button
                     onClick={() => setConfirmation(true)}
-                    className='flex items-center border-2 opacity-70  p-2 hover:opacity-100 hover:shadow-sm'
+                    className='flex items-center border-2 rounded-full md:rounded-none opacity-70  p-1 lg:p-2 hover:opacity-100 hover:shadow-sm'
                   >
-                    Eliminar curso
+                    <p className='hidden md:block'>Eliminar curso</p>
                     <TbTrash size={25} className='ml-1' />
                   </button>
                 </div>
@@ -131,7 +131,7 @@ function Students() {
                     i.lastname.toLowerCase().includes(search.toLowerCase())
                 )}
               />
-            </>
+            </div>
           )}
         </>
       )}
