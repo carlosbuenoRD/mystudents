@@ -42,7 +42,11 @@ function Calificaciones() {
     }
   }, [subject, classroom])
 
-  const handleChange = (e) => {
+  const handleChange = (e, max) => {
+    if (e.target.value > max) {
+      onInvalidInput()
+      return
+    }
     setCalification((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
@@ -63,6 +67,7 @@ function Calificaciones() {
   }
 
   const fillCalification = (grade) => {
+    if (grade._id === calification._id) return
     setCalification({ ...grade })
   }
 
@@ -76,6 +81,10 @@ function Calificaciones() {
       conduct: 0,
       homework: 0,
     })
+  }
+
+  const onInvalidInput = () => {
+    toast.error('Pasas el limite de puntos!')
   }
 
   return (
@@ -147,9 +156,12 @@ function Calificaciones() {
                         <label>{i.title.toUpperCase()}</label>
                         <input
                           type='number'
+                          max={i.max}
+                          min={0}
                           name={i.title}
-                          onChange={handleChange}
-                          className='border md:text-lg py-2 xl:py-4 text-center w-8 md:w-12  xl:w-16'
+                          onChange={(e) => handleChange(e, i.max)}
+                          onInvalid={onInvalidInput}
+                          className='border md:text-lg py-2 xl:py-4 invalid:border-red-700 invalid:outline-red-600 text-center w-8 md:w-12  xl:w-16'
                           value={
                             calification._id === grade._id
                               ? calification[i.title]
