@@ -27,7 +27,7 @@ export default function formatDate(date, format) {
     let day = d.getDate()
     let year = d.getFullYear()
 
-    return `${day}/${month}/${year}`
+    return `${month}/${day}/${year}`
   }
 
   if (format === 'day') {
