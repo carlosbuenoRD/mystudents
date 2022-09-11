@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { BsPhone } from 'react-icons/bs'
 import { TbArrowAutofitContent } from 'react-icons/tb'
+// import { schedule } from '@utils/data'
 
-function Schedule() {
+function ScheduleContainer({ children }) {
   const [flip, setFlip] = useState(false)
+  const [edit, setEdit] = useState(false)
 
   function fnBrowserDetect() {
     let userAgent = navigator.userAgent
@@ -40,9 +42,30 @@ function Schedule() {
   return (
     <>
       <div className='w-full flex flex-col justify-center items-center mb-6'>
-        <h1 className='text-center mt-4 text-4xl lg:text-5xl xl:text-6xl xl:mb-4 font-medium font-mono tracking-wider mb-4'>
-          Horario
-        </h1>
+        <div className='flex relative justify-evenly items-center w-3/4'>
+          <button
+            onClick={() => setEdit(false)}
+            className={`border border-red-300 hover:bg-red-300 transition-all rounded-sm px-8 h-12 ${
+              !edit && 'invisible'
+            }`}
+          >
+            Cancelar
+          </button>
+
+          <h1 className='text-center mt-4 text-4xl lg:text-5xl xl:text-6xl xl:mb-4 font-medium font-mono tracking-wider mb-4'>
+            Horario
+          </h1>
+          <button
+            onClick={() => setEdit(true)}
+            className={`border transition-all rounded-sm px-8 h-12 ${
+              edit
+                ? 'border-green-300 hover:bg-green-300'
+                : 'border-blue-300 hover:bg-blue-300'
+            }`}
+          >
+            {edit ? 'Guardar' : 'Editar'}
+          </button>
+        </div>
         <ul className='grid grid-cols-4 gap:3 sm:gap-5'>
           <li className='flex text-xs sm:text-base flex-col md:flex-row items-center'>
             <div className='w-8 h-2 bg-red-400 mr-1'></div>
@@ -62,98 +85,12 @@ function Schedule() {
           </li>
         </ul>
       </div>
-      <div className={`w-3/4 m-auto z-50 ${flip ? '' : 'hidden md:block'}`}>
-        <table className='w-full shadow-lg'>
-          <thead className='border'>
-            <tr>
-              <th className='border-r h-20 bg-slate-50/90'>Lunes</th>
-              <th className='border-r h-20 bg-slate-50/90'>Martes</th>
-              <th className='border-r h-20 bg-slate-50/90'>Miercoles</th>
-              <th className='border-r h-20 bg-slate-50/90'>Jueves</th>
-              <th className='border-r h-20 bg-slate-50/90'>Viernes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className='border'>
-              <td className='h-20 border-r text-center bg-red-400'>Español</td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center bg-yellow-400'>
-                Sociales
-              </td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center bg-green-400'>
-                Naturales
-              </td>
-            </tr>
-            <tr className='border'>
-              <td className='h-20 border-r text-center bg-red-400'>Español</td>
-              <td className='h-20 border-r text-center bg-green-400'>
-                Naturales
-              </td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center bg-blue-400'>
-                Matematicas
-              </td>
-              <td className='h-20 border-r text-center'></td>
-            </tr>
-            <tr className='border'>
-              <td className='h-20 border-r text-center '></td>
-              <td className='h-20 border-r text-center bg-green-400'>
-                Naturales
-              </td>
-              <td className='h-20 border-r text-center bg-blue-400'>
-                Matematicas
-              </td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-            </tr>
-            <tr className='border'>
-              <td className='h-20 border-r text-center '></td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-            </tr>
-            <tr className='border'>
-              <td className='h-20 border-r text-center bg-green-400'>
-                Naturales
-              </td>
-              <td className='h-20 border-r text-center '></td>
-              <td className='h-20 border-r text-center bg-blue-400'>
-                Matematicas
-              </td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-            </tr>
-            <tr className='border'>
-              <td className='h-20 border-r text-center bg-yellow-400'>
-                Sociales
-              </td>
-              <td className='h-20 border-r text-center '></td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center bg-red-400'>Español</td>
-              <td className='h-20 border-r text-center'></td>
-            </tr>
-            <tr className='border'>
-              <td className='h-20 border-r text-center '></td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center bg-yellow-400'>
-                Sociales
-              </td>
-            </tr>
-            <tr className='border'>
-              <td className='h-20 border-r text-center '></td>
-              <td className='h-20 border-r text-center bg-yellow-400'>
-                Sociales
-              </td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-              <td className='h-20 border-r text-center'></td>
-            </tr>
-          </tbody>
-        </table>
+      <div
+        className={`w-3/4 m-auto z-50 ${flip ? '' : 'hidden md:block'} ${
+          edit ? '' : 'pointer-events-none'
+        }`}
+      >
+        {children}
       </div>
 
       <div className='md:hidden  border shadow-md p-8 flex flex-col justify-center items-center text-xl'>
@@ -167,4 +104,55 @@ function Schedule() {
   )
 }
 
-export default Schedule
+export default ScheduleContainer
+
+{
+  /* <table className='w-full shadow-lg'>
+          <thead className='border'>
+            <tr>
+              <th className='border-r h-20 bg-slate-50/90'>Lunes</th>
+              <th className='border-r h-20 bg-slate-50/90'>Martes</th>
+              <th className='border-r h-20 bg-slate-50/90'>Miercoles</th>
+              <th className='border-r h-20 bg-slate-50/90'>Jueves</th>
+              <th className='border-r h-20 bg-slate-50/90'>Viernes</th>
+            </tr>
+          </thead>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <tbody>
+              {schedule.map((day, index) => (
+                <Droppable key={index} droppableId={`${day.length + index}`}>
+                  {(provided) => (
+                    <tr
+                      ref={provided.innerRef}
+                      className='border'
+                      {...provided.droppableProps}
+                    >
+                      {day.map((c, i) => (
+                        <Draggable
+                          key={i}
+                          index={i}
+                          draggableId={`${index * i}`}
+                        >
+                          {(p) => (
+                            <td
+                              ref={p.innerRef}
+                              {...p.draggableProps}
+                              {...p.dragHandleProps}
+                              className={`h-20 border-r text-center ${
+                                c && 'bg-red-400'
+                              }`}
+                            >
+                              {c}
+                            </td>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </tr>
+                  )}
+                </Droppable>
+              ))}
+            </tbody>
+          </DragDropContext>
+        </table> */
+}

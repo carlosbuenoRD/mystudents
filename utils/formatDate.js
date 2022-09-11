@@ -1,11 +1,11 @@
 const DAYS = [
+  'domingo',
   'lunes',
   'martes',
   'miercoles',
   'jueves',
   'viernes',
   'sabado',
-  'domingo',
 ]
 
 export default function formatDate(date, format) {
@@ -31,6 +31,7 @@ export default function formatDate(date, format) {
   }
 
   if (format === 'day') {
-    return DAYS[d.getDay() - 1]
+    console.log(d.getDay())
+    return DAYS[d.getDay()]
   }
 }

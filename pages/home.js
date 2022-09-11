@@ -3,17 +3,23 @@ import Layout from '@components/Layout/Layout'
 import formatDate from '@utils/formatDate'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { AiOutlinePlusSquare } from 'react-icons/ai'
 import { BsListCheck } from 'react-icons/bs'
 import { FaUserGraduate } from 'react-icons/fa'
 import { GrNotes } from 'react-icons/gr'
 import axios from 'axios'
 
-const Schedule = dynamic(() => import('@components/Schedule'), { ssr: false })
+const Schedule = dynamic(() => import('@components/schedule/Schedule'), {
+  ssr: false,
+})
+const ScheduleContainer = dynamic(() => import('@components/Schedule'), {
+  ssr: false,
+})
 
 export const getServerSideProps = async () => {
   const { data } = await axios.get(
-    `${process.env.URL}/api/count` || 'http://localhost:3000/api/count'
+    process.env.URL
+      ? `${process.env.URL}/api/count`
+      : 'http://localhost:3000/api/count'
   )
 
   return {
@@ -94,7 +100,9 @@ export default function Home({ studentsCount, classroomsCount }) {
 
       {/* Schedule */}
       <section className='mt-16 relative bg-slate-50'>
-        <Schedule />
+        <ScheduleContainer>
+          <Schedule />
+        </ScheduleContainer>
       </section>
     </Layout>
   )
