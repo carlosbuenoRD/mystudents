@@ -151,7 +151,7 @@ function Calificaciones() {
                     {calificationSubjects.map((i) => (
                       <div
                         key={i.title}
-                        className='flex flex-col items-center mb-4 ml-4 text-xs xl:text-sm'
+                        className='flex flex-col items-center mb-4 lg:mb-0 ml-4 text-xs xl:text-sm'
                       >
                         <label>{i.title.toUpperCase()}</label>
                         <input
@@ -176,9 +176,11 @@ function Calificaciones() {
                     ))}
                   </div>
                   <div className='flex'>
-                    <div className='flex flex-col-reverse items-center lg:flex-col text-center lg:items-end ml-4'>
-                      <label className='uppercase'>Final</label>
-                      <p className='border py-1 md:py-2 lg:py-3 xl:py-4 text-center h-10 lg:h-12 xl:h-16 w-10 lg:w-12 xl:w-16'>
+                    <div className='flex flex-col-reverse items-center justify-center lg:flex-col text-center ml-4'>
+                      <label className='uppercase'>
+                        {getLiteral(grade, true)}
+                      </label>
+                      <p className='border bg-slate-100 py-1 md:py-2 lg:py-3 xl:py-4 text-center h-10 lg:h-12 xl:h-16 w-10 lg:w-12 xl:w-16'>
                         {getLiteral(grade)}
                       </p>
                     </div>

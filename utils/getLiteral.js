@@ -1,6 +1,6 @@
 import { calificationSubjects } from './data'
 
-export default function getLiteral(grade) {
+export default function getLiteral(grade, sum) {
   let n = 0
 
   calificationSubjects.forEach((i) => {
@@ -8,6 +8,10 @@ export default function getLiteral(grade) {
       n += grade[i.title]
     }
   })
+
+  if (sum) {
+    return n
+  }
 
   if (n <= 100 && n >= 90) {
     return 'A'
