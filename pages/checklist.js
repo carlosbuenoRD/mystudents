@@ -13,11 +13,13 @@ import ViewCheckList from '@components/Modal/ViewCheckList'
 import completedList from '@utils/completedList'
 import formatDate from '@utils/formatDate'
 import SubjectButton from '@components/SubjectButton'
+import Loading from '@components/Loading'
 
 function CheckList() {
   const [viewList, setViewList] = useState(false)
   const [subject, setSubject] = useState('Lengua Española')
   const [history, setHistory] = useState(true)
+  const [loadingList, setLoadingList] = useState(true)
   const [confirmation, setConfirmation] = useState(false)
   const [classroom, setClassroom] = useState('')
   const [list, setList] = useState([])
@@ -40,7 +42,7 @@ function CheckList() {
   useEffect(() => {
     setList([])
     if (classroom) {
-      getAllList(subject, date.replace('-', '/').replace('-', '/'), classroom)
+      handleGetList()
     }
   }, [history, subject, date, classroom])
 
@@ -49,6 +51,20 @@ function CheckList() {
       setClassroom(classrooms[0]._id)
     }
   }, [classrooms])
+
+  const handleGetList = async () => {
+    try {
+      setLoadingList(true)
+      await getAllList(
+        subject,
+        date.replace('-', '/').replace('-', '/'),
+        classroom
+      )
+      setLoadingList(false)
+    } catch (error) {
+      toast.error('Hubo un problema')
+    }
+  }
 
   const handleListChange = (student, present) => {
     const exist = list.findIndex((i) => i.student === student._id)
@@ -154,38 +170,44 @@ function CheckList() {
               </div>
             ) : (
               <div className='flex-1 h-full overflow-y-scroll'>
-                {allCheckList?.map((list) => (
-                  <div
-                    key={list._id}
-                    onClick={() => handleViewList(list)}
-                    className='grid grid-cols-4 cursor-pointer border-b p-3 hover:bg-slate-100 '
-                  >
-                    <p>{formatDate(list.createdAt, 'date')}</p>
-                    <p className='text-end md:text-start'>
-                      {formatDate(list.createdAt, 'time')}
-                    </p>
-                    <p className='hidden md:block'>{list.subject}</p>
-                    <p className='md:hidden'></p>
-                    <div className='flex items-center justify-self-end pr-4'>
-                      <p className='hidden md:block'>
-                        {completedList(list) ? 'Completado' : 'Incompleto'}
-                      </p>
+                {loadingList ? (
+                  <Loading />
+                ) : (
+                  <>
+                    {allCheckList?.map((list) => (
                       <div
-                        className={`border-2 mr-4 ml-1 rounded-full p-1 ${
-                          completedList(list)
-                            ? 'border-green-400'
-                            : 'border-red-400'
-                        }`}
+                        key={list._id}
+                        onClick={() => handleViewList(list)}
+                        className='grid grid-cols-4 cursor-pointer border-b p-3 hover:bg-slate-100 '
                       >
-                        {completedList(list) ? (
-                          <BiCheck size={25} />
-                        ) : (
-                          <AiOutlineClose size={25} />
-                        )}
+                        <p>{formatDate(list.createdAt, 'date')}</p>
+                        <p className='text-end md:text-start'>
+                          {formatDate(list.createdAt, 'time')}
+                        </p>
+                        <p className='hidden md:block'>{list.subject}</p>
+                        <p className='md:hidden'></p>
+                        <div className='flex items-center justify-self-end pr-4'>
+                          <p className='hidden md:block'>
+                            {completedList(list) ? 'Completado' : 'Incompleto'}
+                          </p>
+                          <div
+                            className={`border-2 mr-4 ml-1 rounded-full p-1 ${
+                              completedList(list)
+                                ? 'border-green-400'
+                                : 'border-red-400'
+                            }`}
+                          >
+                            {completedList(list) ? (
+                              <BiCheck size={25} />
+                            ) : (
+                              <AiOutlineClose size={25} />
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    ))}
+                  </>
+                )}
               </div>
             )}
           </>

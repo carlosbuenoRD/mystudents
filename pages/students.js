@@ -22,6 +22,7 @@ function Students() {
   const [createClass, setCreateClass] = useState(false)
   const [confirmation, setConfirmation] = useState(false)
   const [loadingStudents, setLoadingStudents] = useState(false)
+  const [loadingClassrooms, setLoadingClassrooms] = useState(false)
   const [selectedClassroom, setSelectedClassroom] = useState('')
   const [search, setSearch] = useState('')
   const { students, classrooms } = useCTX()
@@ -29,8 +30,18 @@ function Students() {
     useStudentDispatch()
 
   useEffect(() => {
-    getAllClassroom()
+    getClassrooms()
   }, [])
+
+  const getClassrooms = async () => {
+    try {
+      setLoadingClassrooms(true)
+      await getAllClassroom()
+      setLoadingClassrooms(false)
+    } catch (error) {
+      toast.error('Hubo un problema!')
+    }
+  }
 
   const getStudents = async (classroom) => {
     setLoadingStudents(true)
@@ -42,7 +53,7 @@ function Students() {
   const handleClearStudents = () => {
     clearStudents()
     setSelectedClassroom(false)
-    getAllClassroom()
+    getClassrooms()
   }
 
   const handleDeleteClassroom = async () => {
@@ -76,28 +87,36 @@ function Students() {
                   <CgFolderAdd size={25} className='ml-2' />
                 </button>
               </div>
-              {classrooms?.length > 0 ? (
-                <div className='grid md:grid-cols-3 gap-4 md:gap-10 px-2'>
-                  {classrooms?.map((i) => (
-                    <div
-                      key={i._id}
-                      onClick={() => getStudents(i)}
-                      className='bg-orange-200 relative cursor-pointer shadow-md w-full text-center transition-all grid place-items-center h-56 rounded-lg p-6 hover:scale-105'
-                    >
-                      <h1 className='text-4xl tracking-wider uppercase'>
-                        {i.name}
-                      </h1>
-                      <div>
-                        <h2 className='text-4xl mb-2'>{i.students.length}</h2>
-                        <p className='text-xl'>Estudiantes</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              {loadingClassrooms ? (
+                <Loading />
               ) : (
-                <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
-                  No tienes cursos agregue uno!
-                </div>
+                <>
+                  {classrooms?.length > 0 ? (
+                    <div className='grid md:grid-cols-3 gap-4 md:gap-10 px-2'>
+                      {classrooms?.map((i) => (
+                        <div
+                          key={i._id}
+                          onClick={() => getStudents(i)}
+                          className='bg-orange-200 relative cursor-pointer shadow-md w-full text-center transition-all grid place-items-center h-56 rounded-lg p-6 hover:scale-105'
+                        >
+                          <h1 className='text-4xl tracking-wider uppercase'>
+                            {i.name}
+                          </h1>
+                          <div>
+                            <h2 className='text-4xl mb-2'>
+                              {i.students.length}
+                            </h2>
+                            <p className='text-xl'>Estudiantes</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
+                      No tienes cursos agregue uno!
+                    </div>
+                  )}
+                </>
               )}
             </>
           ) : (

@@ -56,8 +56,8 @@ input::-webkit-inner-spin-button {
 /* LOADING */
 
 .loading {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   animation: spin 1s linear infinite;
   border: 15px solid rgb(160, 158, 158);
   border-top: 15px solid black;
