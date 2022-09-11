@@ -22,19 +22,28 @@ function Index() {
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
+      if (!password) {
+        return toast.error('Ingresa una contraseña')
+      }
       await login(password)
       toast.success('Bienvenido!')
       router.push('/home')
     } catch (error) {
+      toast.error(error.response.data)
       setPassword('')
       setChances((prev) => prev - 1)
-      toast.error(error.response.data)
     }
   }
 
   const handleLoginQuestion = async (e) => {
     e.preventDefault()
     try {
+      if (!answer) {
+        return toast.error('Ingresa una respuesta!')
+      }
+      if (!question) {
+        return toast.error('Selecciona una pregunta!')
+      }
       await loginQuestion(answer)
       toast.success('Bienvenido!')
       router.push('/home')

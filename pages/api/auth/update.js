@@ -21,7 +21,7 @@ handler.put(async (req, res) => {
       return
     }
     auth[0].password = bcrypt.hashSync(newPassword, 10)
-    auth[0].answer = answer
+    auth[0].securityQuestion.answer = answer || auth[0].securityQuestion.answer
     await auth[0].save()
     response(res, 200, 'Contraseña actualizada')
   } catch (error) {

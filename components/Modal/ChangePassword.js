@@ -50,9 +50,9 @@ function ChangePassword({ show, onClose }) {
         <div className='modal_card__body'>
           <form>
             <div className='flex flex-col'>
-              <label>Vieja contraseña</label>
+              <label>Vieja contraseña *</label>
               <input
-                type={'text'}
+                type={'password'}
                 className='border-2 border-slate-400 py-2 text-lg px-2 rounded-md outline-blue-500'
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
@@ -60,9 +60,9 @@ function ChangePassword({ show, onClose }) {
             </div>
 
             <div className='flex flex-col'>
-              <label>Nueva contraseña</label>
+              <label>Nueva contraseña *</label>
               <input
-                type={'text'}
+                type={'password'}
                 className='border-2 border-slate-400 mb-4 py-2 text-lg px-2 rounded-md outline-blue-500'
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
