@@ -1,43 +1,18 @@
 import React, { useState } from 'react'
 import { BsPhone } from 'react-icons/bs'
 import { TbArrowAutofitContent } from 'react-icons/tb'
-// import { schedule } from '@utils/data'
 
 function ScheduleContainer({ children }) {
   const [flip, setFlip] = useState(false)
   const [edit, setEdit] = useState(false)
 
-  function fnBrowserDetect() {
-    let userAgent = navigator.userAgent
-    let browserName
-
-    if (userAgent.match(/chrome|chromium|crios/i)) {
-      browserName = 'chrome'
-    } else if (userAgent.match(/firefox|fxios/i)) {
-      browserName = 'firefox'
-    } else if (userAgent.match(/safari/i)) {
-      browserName = 'safari'
-    } else if (userAgent.match(/opr\//i)) {
-      browserName = 'opera'
-    } else if (userAgent.match(/edg/i)) {
-      browserName = 'edge'
+  window.screen.orientation?.addEventListener('change', (e) => {
+    if (e.target.ScreenOrientation === 90) {
+      setFlip(true)
     } else {
-      browserName = 'No browser detection'
+      setFlip(false)
     }
-    return browserName
-  }
-
-  fnBrowserDetect()
-
-  if (fnBrowserDetect() !== 'safari') {
-    window.screen.orientation.addEventListener('change', (e) => {
-      if (e.target.ScreenOrientation === 90) {
-        setFlip(true)
-      } else {
-        setFlip(false)
-      }
-    })
-  }
+  })
 
   return (
     <>
@@ -86,18 +61,35 @@ function ScheduleContainer({ children }) {
         </ul>
       </div>
       <div
-        className={`w-3/4 m-auto z-50 ${flip ? '' : 'hidden md:block'} ${
-          edit ? '' : 'pointer-events-none'
-        }`}
+        className={`w-3/4 m-auto z-50 ${
+          flip ? '' : 'hidden md:block shadow-lg'
+        } ${edit ? '' : 'pointer-events-none'}`}
       >
+        <div className='grid grid-cols-5'>
+          <p className='h-14 w-full grid place-items-center border bg-white'>
+            Lunes
+          </p>
+          <p className='h-14 w-full grid place-items-center border bg-white'>
+            Martes
+          </p>
+          <p className='h-14 w-full grid place-items-center border bg-white'>
+            Miercoles
+          </p>
+          <p className='h-14 w-full grid place-items-center border bg-white'>
+            Jueves
+          </p>
+          <p className='h-14 w-full grid place-items-center border bg-white'>
+            Viernes
+          </p>
+        </div>
         {children}
       </div>
 
       <div className='md:hidden  border shadow-md p-8 flex flex-col justify-center items-center text-xl'>
         <BsPhone className='flip' size={40} />
         <TbArrowAutofitContent size={30} />
-        {fnBrowserDetect() === 'safari'
-          ? 'No esta disponible en safari.'
+        {!window.screen.orientation
+          ? 'No esta disponible.'
           : 'Gira la pantalla'}
       </div>
     </>
@@ -105,54 +97,3 @@ function ScheduleContainer({ children }) {
 }
 
 export default ScheduleContainer
-
-{
-  /* <table className='w-full shadow-lg'>
-          <thead className='border'>
-            <tr>
-              <th className='border-r h-20 bg-slate-50/90'>Lunes</th>
-              <th className='border-r h-20 bg-slate-50/90'>Martes</th>
-              <th className='border-r h-20 bg-slate-50/90'>Miercoles</th>
-              <th className='border-r h-20 bg-slate-50/90'>Jueves</th>
-              <th className='border-r h-20 bg-slate-50/90'>Viernes</th>
-            </tr>
-          </thead>
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <tbody>
-              {schedule.map((day, index) => (
-                <Droppable key={index} droppableId={`${day.length + index}`}>
-                  {(provided) => (
-                    <tr
-                      ref={provided.innerRef}
-                      className='border'
-                      {...provided.droppableProps}
-                    >
-                      {day.map((c, i) => (
-                        <Draggable
-                          key={i}
-                          index={i}
-                          draggableId={`${index * i}`}
-                        >
-                          {(p) => (
-                            <td
-                              ref={p.innerRef}
-                              {...p.draggableProps}
-                              {...p.dragHandleProps}
-                              className={`h-20 border-r text-center ${
-                                c && 'bg-red-400'
-                              }`}
-                            >
-                              {c}
-                            </td>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </tr>
-                  )}
-                </Droppable>
-              ))}
-            </tbody>
-          </DragDropContext>
-        </table> */
-}

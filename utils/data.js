@@ -97,8 +97,8 @@ export const initialData = [
       { id: 'w-9:30', subject: 'Naturales' },
       { id: 'w-10:45:', subject: '' },
       { id: 'w-11:30', subject: '' },
-      { id: 'w-12:15', subject: 'Matematicas' },
-      { id: 'w-1:00', subject: 'Matematicas' },
+      { id: 'w-12:15', subject: '' },
+      { id: 'w-1:00', subject: '' },
     ],
   },
   {

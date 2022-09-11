@@ -1,5 +1,6 @@
 import { createContext, useReducer } from 'react'
 import cookie from 'js-cookie'
+import { initialData } from '@utils/data'
 
 // Reducers
 import studentReducer from './reducers/students'
@@ -12,6 +13,7 @@ const initialState = {
   califications: [],
   allCkeckList: [],
   classrooms: [],
+  scheduleData: initialData || [],
   auth: cookie.get('auth') ? cookie.get('auth') : null,
 }
 

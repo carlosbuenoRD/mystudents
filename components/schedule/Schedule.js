@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
-import { initialData } from '@utils/data'
+import { useCTX } from '@hooks/useContextHook'
 import Column from './Column'
 
 function Schedule() {
-  const [data, setData] = useState(initialData)
+  const { scheduleData } = useCTX()
 
   const handleOnDragEnd = (result) => {
     const { destination, source, draggableId } = result
@@ -17,12 +17,12 @@ function Schedule() {
     )
       return
 
-    const [sourceGroup] = data.filter(
+    const [sourceGroup] = scheduleData.filter(
       (column) => column.day === source.droppableId
     )
 
     const [destinationGroup] = destination
-      ? data.filter((column) => column.day === destination.droppableId)
+      ? scheduleData.filter((column) => column.day === destination.droppableId)
       : { ...sourceGroup }
 
     // if (
@@ -31,7 +31,6 @@ function Schedule() {
     // )
     //   return
 
-    // We save the task we are moving
     const [movingTask] = sourceGroup.tasks.filter((t) => t.id === draggableId)
     const [destinationSpot] = destinationGroup.tasks.filter(
       (t) => t.id.split('-')[1] === movingTask.id.split('-')[1]
@@ -45,7 +44,7 @@ function Schedule() {
       movingTask
     )
 
-    const newDayList = data.map((column) => {
+    const newDayList = scheduleData.map((column) => {
       if (column.day === source.day) {
         return {
           day: column.day,
@@ -61,13 +60,13 @@ function Schedule() {
       return column
     })
 
-    setData(newDayList)
+    // setData(newDayList)
   }
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <div className='grid grid-cols-5'>
-        {data.map((day) => {
+        {scheduleData.map((day) => {
           return <Column key={day.day} day={day} />
         })}
       </div>
