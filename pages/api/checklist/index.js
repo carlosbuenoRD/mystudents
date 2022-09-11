@@ -21,7 +21,7 @@ handler.get(async (req, res) => {
     const list = await CheckList.find({
       subject: req.query.subject,
       classroom: req.query.classroom,
-      // createdAt: { $gte: start, $lt: end },
+      createdAt: { $gte: start, $lt: end },
     }).populate('list.student')
 
     response(res, 200, list)

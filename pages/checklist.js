@@ -40,7 +40,7 @@ function CheckList() {
   useEffect(() => {
     setList([])
     if (classroom) {
-      getAllList(subject, date, classroom)
+      getAllList(subject, date.replace('-', '/').replace('-', '/'), classroom)
     }
   }, [history, subject, date, classroom])
 
