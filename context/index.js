@@ -1,4 +1,5 @@
 import { createContext, useReducer } from 'react'
+import cookie from 'js-cookie'
 
 // Reducers
 import studentReducer from './reducers/students'
@@ -9,6 +10,9 @@ export const DispatchContext = createContext()
 const initialState = {
   students: [],
   califications: [],
+  allCkeckList: [],
+  classrooms: [],
+  auth: cookie.get('auth') ? cookie.get('auth') : null,
 }
 
 function ContextProvider({ children }) {

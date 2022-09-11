@@ -1,17 +1,41 @@
 import React, { useState } from 'react'
-import { BsPhone, BsPhoneLandscape } from 'react-icons/bs'
+import { BsPhone } from 'react-icons/bs'
 import { TbArrowAutofitContent } from 'react-icons/tb'
 
 function Schedule() {
   const [flip, setFlip] = useState(false)
 
-  window.screen.orientation.addEventListener('change', (e) => {
-    if (e.target.ScreenOrientation === 90) {
-      setFlip(true)
+  function fnBrowserDetect() {
+    let userAgent = navigator.userAgent
+    let browserName
+
+    if (userAgent.match(/chrome|chromium|crios/i)) {
+      browserName = 'chrome'
+    } else if (userAgent.match(/firefox|fxios/i)) {
+      browserName = 'firefox'
+    } else if (userAgent.match(/safari/i)) {
+      browserName = 'safari'
+    } else if (userAgent.match(/opr\//i)) {
+      browserName = 'opera'
+    } else if (userAgent.match(/edg/i)) {
+      browserName = 'edge'
     } else {
-      setFlip(false)
+      browserName = 'No browser detection'
     }
-  })
+    return browserName
+  }
+
+  fnBrowserDetect()
+
+  if (fnBrowserDetect() !== 'safari') {
+    window.screen.orientation.addEventListener('change', (e) => {
+      if (e.target.ScreenOrientation === 90) {
+        setFlip(true)
+      } else {
+        setFlip(false)
+      }
+    })
+  }
 
   return (
     <>
@@ -135,7 +159,9 @@ function Schedule() {
       <div className='md:hidden  border shadow-md p-8 flex flex-col justify-center items-center text-xl'>
         <BsPhone className='flip' size={40} />
         <TbArrowAutofitContent size={30} />
-        Gira la pantalla
+        {fnBrowserDetect() === 'safari'
+          ? 'No esta disponible en safari.'
+          : 'Gira la pantalla'}
       </div>
     </>
   )

@@ -1,10 +1,13 @@
 import nc from 'next-connect'
 import { Student, Calification } from '@models/students'
 import { ClassRoom } from '@models/classroom'
-import { connect, disconnect } from '@utils/db'
+import { protect } from '../../../middlewares/authMiddlewares'
+import { connect } from '@utils/db'
 import response from '@utils/response'
 
 const handler = nc()
+
+handler.use(protect)
 
 // Delete
 handler.delete(async (req, res) => {
@@ -14,11 +17,13 @@ handler.delete(async (req, res) => {
     classroom.students.forEach(async (i) => {
       let student = await Student.findById(i._id)
       let califications = await Calification.find({ student: i._id })
+      califications.forEach(async (c) => {
+        await c.remove()
+      })
       await student.remove()
-      await califications.remove()
     })
     await classroom.remove()
-    await disconnect()
+
     response(res, 204)
   } catch (error) {
     res.json(error.message)

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { useStudentDispatch } from 'hooks/useContextHook'
 
 //Icons
 import { BsDoorClosed } from 'react-icons/bs'
@@ -9,19 +10,20 @@ import { BsListCheck } from 'react-icons/bs'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { GrNotes } from 'react-icons/gr'
 import { CgClose } from 'react-icons/cg'
+import Confirmation from '@components/Confirmation'
 
 function Navbar() {
   const router = useRouter()
   const [mobileMenu, setMobileMenu] = useState(false)
+  const [show, setShow] = useState(false)
+  const { logout } = useStudentDispatch()
 
   let { pathname } = router
-
-  console.log(pathname)
 
   return (
     <header className='h-20 md:h-28 shadow-md'>
       <nav className='px-2 relative sm:px-0 container m-auto flex items-center justify-between h-full xl:px-12'>
-        <Link href={'/'} passHref>
+        <Link href={'/home'} passHref>
           <a className='font-bold font-mono text-2xl z-50'>My Students</a>
         </Link>
 
@@ -73,19 +75,39 @@ function Navbar() {
               </a>
             </Link>
           </li>
+          <li
+            onClick={() => setShow(true)}
+            className='mx-8 md:hidden mt-8 md:mx-0'
+          >
+            <button
+              className={`cursor-pointer flex items-center w-full hover:bg-orange-300 transition-all p-2 rounded-lg `}
+            >
+              <BsDoorClosed className='mr-2' />
+              Salir
+            </button>
+          </li>
         </ul>
 
-        <button className='hidden md:block    p-1 border-2 rounded-md text-orange-600 border-orange-400'>
+        <button
+          onClick={() => setShow(true)}
+          className='hidden md:block p-1 border-2 rounded-md border-orange-300 hover:bg-orange-300'
+        >
           <BsDoorClosed size={30} />
         </button>
 
         <button
           onClick={() => setMobileMenu(!mobileMenu)}
-          className='block z-50 md:hidden p-1 border-2 rounded-md text-orange-600 border-orange-400'
+          className='block z-50 md:hidden p-1 border-2 transition-all rounded-md border-orange-300 hover:bg-orange-300'
         >
           <GiHamburgerMenu size={30} />
         </button>
       </nav>
+      <Confirmation
+        show={show}
+        onClose={() => setShow(false)}
+        onConfirm={logout}
+        text={'Seguro de salir del sistema?'}
+      />
     </header>
   )
 }

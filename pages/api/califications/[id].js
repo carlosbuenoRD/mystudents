@@ -1,17 +1,20 @@
 import nc from 'next-connect'
-import { connect, disconnect } from '@utils/db'
-import { subjects } from '@utils/data'
+import { connect } from '@utils/db'
+import { protect } from '../../../middlewares/authMiddlewares'
 import response from '@utils/response'
 import { Calification } from '@models/students'
 
 const handler = nc()
 
 // Get one grade
+
+handler.use(protect)
+
 handler.get(async (req, res) => {
   try {
     await connect()
     const grade = await Calification.find({ student: req.query.id })
-    await disconnect()
+
     response(res, 200, grade)
   } catch (error) {
     res.json(error.message)
@@ -35,7 +38,7 @@ handler.put(async (req, res) => {
     calification.homework = homework
     calification.practice = practice
     await calification.save()
-    await disconnect()
+
     response(res, 200, calification)
   } catch (error) {
     res.json(error.message)

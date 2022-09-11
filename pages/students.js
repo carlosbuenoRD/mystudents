@@ -76,23 +76,29 @@ function Students() {
                   <CgFolderAdd size={25} className='ml-2' />
                 </button>
               </div>
-              <div className='grid md:grid-cols-3 gap-4 md:gap-10 px-2'>
-                {classrooms?.map((i) => (
-                  <div
-                    key={i._id}
-                    onClick={() => getStudents(i)}
-                    className='bg-orange-200 relative cursor-pointer shadow-md w-full text-center transition-all grid place-items-center h-56 rounded-lg p-6 hover:scale-105'
-                  >
-                    <h1 className='text-4xl tracking-wider uppercase'>
-                      {i.name}
-                    </h1>
-                    <div>
-                      <h2 className='text-4xl mb-2'>{i.students.length}</h2>
-                      <p className='text-xl'>Estudiantes</p>
+              {classrooms?.length > 0 ? (
+                <div className='grid md:grid-cols-3 gap-4 md:gap-10 px-2'>
+                  {classrooms?.map((i) => (
+                    <div
+                      key={i._id}
+                      onClick={() => getStudents(i)}
+                      className='bg-orange-200 relative cursor-pointer shadow-md w-full text-center transition-all grid place-items-center h-56 rounded-lg p-6 hover:scale-105'
+                    >
+                      <h1 className='text-4xl tracking-wider uppercase'>
+                        {i.name}
+                      </h1>
+                      <div>
+                        <h2 className='text-4xl mb-2'>{i.students.length}</h2>
+                        <p className='text-xl'>Estudiantes</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
+                  No tienes cursos agregue uno!
+                </div>
+              )}
             </>
           ) : (
             <div className='px-2 md:p-0'>

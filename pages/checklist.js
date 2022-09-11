@@ -45,7 +45,7 @@ function CheckList() {
   }, [history, subject, date, classroom])
 
   useEffect(() => {
-    if (classrooms) {
+    if (classrooms?.length > 0) {
       setClassroom(classrooms[0]._id)
     }
   }, [classrooms])
@@ -92,6 +92,8 @@ function CheckList() {
       toast.error('Hubo un problema!')
     }
   }
+
+  console.log(allCheckList)
 
   return (
     <Layout title='Lista'>
@@ -146,7 +148,7 @@ function CheckList() {
 
         {history ? (
           <>
-            {allCheckList?.length === 0 ? (
+            {allCheckList?.length === 0 || !allCheckList ? (
               <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
                 No tienes pases de lista!
               </div>
@@ -188,40 +190,48 @@ function CheckList() {
             )}
           </>
         ) : (
-          <div className='flex-1 h-full overflow-y-scroll'>
-            {students?.map((student) => (
-              <div
-                key={student._id}
-                className={`grid grid-cols-2 border-b p-3 ${chooseColor(
-                  student
-                )}`}
-              >
-                <p className='md:text-lg lg:text-xl self-center'>
-                  {student.name} {student.lastname}
-                </p>
-                <div className=' justify-self-end pr-4 text-2xl'>
-                  <button
-                    onClick={() => handleListChange(student, true)}
-                    className='border-2 mr-4 border-green-400 text-green-500 rounded-full p-1'
-                  >
-                    <BiCheck />
-                  </button>
-                  <button
-                    onClick={() => handleListChange(student, false)}
-                    className='border-2 border-red-400 text-red-500 rounded-full p-1'
-                  >
-                    <AiOutlineClose />
-                  </button>
-                </div>
+          <>
+            {students?.length === 0 ? (
+              <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
+                No tienes estudiantes agregue uno!
               </div>
-            ))}
-            <button
-              onClick={() => setConfirmation(true)}
-              className='text-center w-full py-4 bg-green-400/80 hover:bg-green-400 text-lg font-medium font-mono'
-            >
-              Terminar
-            </button>
-          </div>
+            ) : (
+              <div className='flex-1 h-full overflow-y-scroll'>
+                {students?.map((student) => (
+                  <div
+                    key={student._id}
+                    className={`grid grid-cols-2 border-b p-3 ${chooseColor(
+                      student
+                    )}`}
+                  >
+                    <p className='md:text-lg lg:text-xl self-center'>
+                      {student.name} {student.lastname}
+                    </p>
+                    <div className=' justify-self-end pr-4 text-2xl'>
+                      <button
+                        onClick={() => handleListChange(student, true)}
+                        className='border-2 mr-4 border-green-400 text-green-500 rounded-full p-1'
+                      >
+                        <BiCheck />
+                      </button>
+                      <button
+                        onClick={() => handleListChange(student, false)}
+                        className='border-2 border-red-400 text-red-500 rounded-full p-1'
+                      >
+                        <AiOutlineClose />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                <button
+                  onClick={() => setConfirmation(true)}
+                  className='text-center w-full py-4 bg-green-400/80 hover:bg-green-400 text-lg font-medium font-mono'
+                >
+                  Terminar
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
       <ViewCheckList

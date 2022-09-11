@@ -80,7 +80,7 @@ function StudentsTable({ students }) {
           </tbody>
         </table>
       ) : (
-        <div className='bg-red-400 py-4 lg:py-6 text-center text-xl font-medium font-mono'>
+        <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
           No tienes estudiantes agregue uno!
         </div>
       )}

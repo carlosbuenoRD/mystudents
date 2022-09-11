@@ -1,10 +1,13 @@
 import nc from 'next-connect'
 import { Student, Calification } from '@models/students'
 import { ClassRoom } from '@models/classroom'
-import { connect, disconnect } from '@utils/db'
+import { protect } from '../../../middlewares/authMiddlewares'
+import { connect } from '@utils/db'
 import response from '@utils/response'
 
 const handler = nc()
+
+handler.use(protect)
 
 // Get one student
 handler.get(async (req, res) => {
@@ -13,7 +16,7 @@ handler.get(async (req, res) => {
     const students = await Student.findById(req.query.id).populate(
       'califications'
     )
-    await disconnect()
+
     response(res, 200, students)
   } catch (error) {
     res.json(error.message)
@@ -34,7 +37,7 @@ handler.put(async (req, res) => {
     student.lastname = lastname
     student.classroom = classroom
     await student.save()
-    await disconnect()
+
     response(res, 200, student)
   } catch (error) {
     res.json(error.message)
@@ -58,7 +61,7 @@ handler.delete(async (req, res) => {
     console.log(califications)
     await student.remove()
     await califications.remove()
-    await disconnect()
+
     response(res, 204)
   } catch (error) {
     res.json(error.message)

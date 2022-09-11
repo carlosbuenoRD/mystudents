@@ -1,11 +1,14 @@
 import nc from 'next-connect'
-import { connect, disconnect } from '@utils/db'
+import { connect } from '@utils/db'
+import { protect } from '../../../middlewares/authMiddlewares'
 import response from '@utils/response'
 import { CheckList } from '@models/students'
 
 const handler = nc()
 
-// Get all list4
+handler.use(protect)
+
+// Get all list
 handler.get(async (req, res) => {
   let start = new Date(req.query.date)
   start.setHours(0, 0, 0, 0)
@@ -20,7 +23,7 @@ handler.get(async (req, res) => {
       classroom: req.query.classroom,
       // createdAt: { $gte: start, $lt: end },
     }).populate('list.student')
-    await disconnect()
+
     response(res, 200, list)
   } catch (error) {
     res.json(error.message)
@@ -34,7 +37,7 @@ handler.post(async (req, res) => {
   try {
     await connect()
     const newList = await CheckList.create({ list, subject, classroom })
-    await disconnect()
+
     response(res, 201, newList)
   } catch (error) {
     res.json(error.message)

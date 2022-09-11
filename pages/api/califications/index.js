@@ -1,12 +1,14 @@
 import nc from 'next-connect'
 import { connect, disconnect } from '@utils/db'
-import { subjects } from '@utils/data'
+import { protect } from '../../../middlewares/authMiddlewares'
 import response from '@utils/response'
 import { Calification } from '@models/students'
 
 const handler = nc()
 
-// Get all students
+handler.use(protect)
+
+// Get all grades
 handler.get(async (req, res) => {
   try {
     await connect()
@@ -14,9 +16,6 @@ handler.get(async (req, res) => {
       subject: req.query.subject,
     }).populate('student')
 
-    console.log(req.query.classroom)
-
-    await disconnect()
     response(res, 200, grades)
   } catch (error) {
     res.json(error.message)

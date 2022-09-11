@@ -13,6 +13,8 @@ export const studentActions = {
   UPDATE_STUDENT: 'UPDATE_STUDENT',
   UPDATE_CALIFICATION: 'UPDATE_CALIFICATION',
   CLEAR_STUDENTS: 'CLEAR_STUDENTS',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
 }
 
 export default function studentReducer(state, { type, payload }) {
@@ -113,6 +115,20 @@ export default function studentReducer(state, { type, payload }) {
       return {
         ...state,
         students: [...removedClassroom],
+      }
+
+    // lOGIN
+
+    case studentActions.LOGIN:
+      return {
+        ...state,
+        auth: payload,
+      }
+
+    case studentActions.LOGOUT:
+      return {
+        ...state,
+        auth: null,
       }
 
     default:

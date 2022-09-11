@@ -31,7 +31,7 @@ function Calificaciones() {
   }, [])
 
   useEffect(() => {
-    if (classrooms) {
+    if (classrooms?.length > 0) {
       setClassroom(classrooms[0]._id)
     }
   }, [classrooms])
@@ -198,6 +198,18 @@ function Calificaciones() {
           </ul>
         </div>
       )}
+      {classrooms?.length === 0 && (
+        <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
+          No tienes cursos agregue uno!
+        </div>
+      )}
+
+      {califications?.length === 0 ||
+        (!califications && (
+          <div className='bg-red-400 flex-1 rounded-md h-fit py-6 text-center text-xl font-medium font-mono'>
+            No tienes cursos agregue uno!
+          </div>
+        ))}
     </Layout>
   )
 }
