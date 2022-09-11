@@ -154,9 +154,19 @@ export const useStudentDispatch = () => {
     dispatch({ type: studentActions.LOGIN, payload: data.jwt })
   }
 
+  const loginQuestion = async (question) => {
+    const { data } = await axios.post(`/api/auth/question`, { question })
+    cookie.set('auth', data.jwt)
+    dispatch({ type: studentActions.LOGIN, payload: data.jwt })
+  }
+
   const logout = async () => {
     dispatch({ type: studentActions.LOGIN })
     cookie.remove('auth')
+  }
+
+  const updatePassword = async (payload) => {
+    await axios.put(`/api/auth/update`, payload, config)
   }
 
   return useMemo(
@@ -176,7 +186,9 @@ export const useStudentDispatch = () => {
       createClassroom,
       deleteClassroom,
       login,
+      loginQuestion,
       logout,
+      updatePassword,
     }),
     [dispatch]
   )

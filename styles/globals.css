@@ -74,3 +74,17 @@ input::-webkit-inner-spin-button {
     transform: rotate(360deg);
   }
 }
+
+/* Settings */
+
+/* .setting_btn {} */
+
+
+
+.settings_btn:hover ~ .settings_options,
+.settings_options:hover {
+  @apply
+  p-4
+  border
+  h-fit
+}

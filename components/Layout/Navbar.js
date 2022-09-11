@@ -10,12 +10,15 @@ import { BsListCheck } from 'react-icons/bs'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { GrNotes } from 'react-icons/gr'
 import { CgClose } from 'react-icons/cg'
+import { FiSettings } from 'react-icons/fi'
 import Confirmation from '@components/Confirmation'
+import ChangePassword from '@components/Modal/ChangePassword'
 
 function Navbar() {
   const router = useRouter()
   const [mobileMenu, setMobileMenu] = useState(false)
   const [show, setShow] = useState(false)
+  const [changePassword, setChangePassword] = useState(false)
   const { logout } = useStudentDispatch()
 
   let { pathname } = router
@@ -88,12 +91,32 @@ function Navbar() {
           </li>
         </ul>
 
-        <button
-          onClick={() => setShow(true)}
-          className='hidden md:block p-1 border-2 rounded-md border-orange-300 hover:bg-orange-300'
-        >
-          <BsDoorClosed size={30} />
-        </button>
+        <div className='flex'>
+          <div className='relative '>
+            <button
+              className={`settings_btn cursor-pointer w-fit mr-6 hover:bg-blue-300 transition-all p-2 rounded-lg `}
+            >
+              <FiSettings size={30} />
+            </button>
+            <ul className='settings_options absolute text-lg font-mono text-start overflow-hidden -left-32 rounded-md bg-white shadow-md h-0 '>
+              <li
+                onClick={() => setChangePassword(true)}
+                className='p-2 border hover:border-2 transition-all cursor-pointer border-orange-300 rounded-md mb-1'
+              >
+                Contraseña
+              </li>
+              <li className='p-2 border hover:border-2 transition-all cursor-pointer border-orange-300 rounded-md'>
+                Calificaciones
+              </li>
+            </ul>
+          </div>
+          <button
+            onClick={() => setShow(true)}
+            className='hidden md:block p-1 border-2 rounded-md transition-all border-orange-300 hover:bg-orange-300'
+          >
+            <BsDoorClosed size={30} />
+          </button>
+        </div>
 
         <button
           onClick={() => setMobileMenu(!mobileMenu)}
@@ -107,6 +130,10 @@ function Navbar() {
         onClose={() => setShow(false)}
         onConfirm={logout}
         text={'Seguro de salir del sistema?'}
+      />
+      <ChangePassword
+        show={changePassword}
+        onClose={() => setChangePassword(false)}
       />
     </header>
   )
