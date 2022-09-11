@@ -13,7 +13,7 @@ const Schedule = dynamic(() => import('@components/Schedule'), { ssr: false })
 
 export const getServerSideProps = async () => {
   const { data } = await axios.get(
-    process.env.URL || 'http://localhost:3000/api/count'
+    `${process.env.URL}/api/count` || 'http://localhost:3000/api/count'
   )
 
   return {
