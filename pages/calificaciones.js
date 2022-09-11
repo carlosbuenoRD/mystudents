@@ -7,7 +7,7 @@ import getLiteral from '@utils/getLiteral'
 import SearchInput from '@components/SearchInput'
 import { GrUpdate } from 'react-icons/gr'
 import Loading from '@components/Loading'
-import SubjectButton from '@components/subjectButton'
+import SubjectButton from '@components/SubjectButton'
 
 function Calificaciones() {
   const [subject, setSubject] = useState('Lengua Española')

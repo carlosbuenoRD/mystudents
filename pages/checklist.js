@@ -12,7 +12,7 @@ import Layout from '@components/Layout/Layout'
 import ViewCheckList from '@components/Modal/ViewCheckList'
 import completedList from '@utils/completedList'
 import formatDate from '@utils/formatDate'
-import SubjectButton from '@components/subjectButton'
+import SubjectButton from '@components/SubjectButton'
 
 function CheckList() {
   const [viewList, setViewList] = useState(false)
