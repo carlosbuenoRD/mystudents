@@ -42,22 +42,22 @@ function ScheduleContainer({ children }) {
   return (
     <>
       <div className='w-full flex flex-col justify-center items-center mb-6'>
-        <div className='flex relative justify-evenly items-center w-3/4'>
+        <div className='flex relative justify-between lg:justify-evenly items-center w-full px-2 lg:w-3/4'>
           <button
             onClick={() => setEdit(false)}
-            className={`border border-red-300 hover:bg-red-300 transition-all rounded-sm px-8 h-12 ${
+            className={`border border-red-300 hover:bg-red-300 transition-all rounded-sm px-2 md:px-8 h-8 md:h-10 lg:h-12 ${
               !edit && 'invisible'
             }`}
           >
             Cancelar
           </button>
 
-          <h1 className='text-center mt-4 text-4xl lg:text-5xl xl:text-6xl xl:mb-4 font-medium font-mono tracking-wider mb-4'>
+          <h1 className='text-center mt-4 text-2xl md:text-4xl lg:text-5xl xl:text-6xl xl:mb-4 font-medium font-mono tracking-wider mb-4'>
             Horario
           </h1>
           <button
             onClick={() => setEdit(true)}
-            className={`border transition-all rounded-sm px-8 h-12 ${
+            className={`border transition-all rounded-sm px-2 md:px-8 h-8 md:h-10 lg:h-12 ${
               edit
                 ? 'border-green-300 hover:bg-green-300'
                 : 'border-blue-300 hover:bg-blue-300'
