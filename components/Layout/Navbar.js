@@ -78,11 +78,16 @@ function Navbar() {
               </a>
             </Link>
           </li>
-          <li
-            onClick={() => setShow(true)}
-            className='mx-8 md:hidden mt-8 md:mx-0'
-          >
+          <li className=' flex-1 flex flex-col justify-end justify-self-end mx-8 md:hidden mb-8 md:mx-0'>
             <button
+              onClick={() => setChangePassword(true)}
+              className={`cursor-pointer flex items-center w-full hover:bg-orange-300 transition-all p-2 rounded-lg `}
+            >
+              <FiSettings className='mr-2' />
+              Contraseña
+            </button>
+            <button
+              onClick={() => setShow(true)}
               className={`cursor-pointer flex items-center w-full hover:bg-orange-300 transition-all p-2 rounded-lg `}
             >
               <BsDoorClosed className='mr-2' />
@@ -91,7 +96,7 @@ function Navbar() {
           </li>
         </ul>
 
-        <div className='flex'>
+        <div className='hidden md:flex'>
           <div className='relative '>
             <button
               className={`settings_btn cursor-pointer w-fit mr-6 hover:bg-blue-300 transition-all p-2 rounded-lg `}
@@ -109,7 +114,7 @@ function Navbar() {
           </div>
           <button
             onClick={() => setShow(true)}
-            className='hidden md:block p-1 border-2 rounded-md transition-all border-orange-300 hover:bg-orange-300'
+            className='p-1 border-2 rounded-md transition-all border-orange-300 hover:bg-orange-300'
           >
             <BsDoorClosed size={30} />
           </button>
