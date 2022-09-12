@@ -9,8 +9,6 @@ function Schedule() {
 
   const [data, setData] = useState([...scheduleData])
 
-  // console.log(data)
-
   useEffect(() => {
     setData(scheduleData)
   }, [data])
@@ -34,12 +32,6 @@ function Schedule() {
       ? data.filter((column) => column.day === destination.droppableId)
       : { ...sourceGroup }
 
-    // if (
-    //   destinationGroup.tasks.length > 6 &&
-    //   destinationGroup.day !== sourceGroup.day
-    // )
-    //   return
-
     const [movingTask] = sourceGroup.tasks.filter((t) => t.id === draggableId)
     const [destinationSpot] = destinationGroup.tasks.filter(
       (t) => t.id.split('-')[1] === movingTask.id.split('-')[1]
@@ -47,9 +39,6 @@ function Schedule() {
 
     let newSourceGroupTasks = sourceGroup.tasks.splice(source.index, 1)
 
-    // const removingIndex = destinationGroup.tasks.filter((i) => i.subject === '')
-
-    // console.log('index', destinationGroup.tasks[destination.index])
     let newDestinationGroupTasks = destinationGroup.tasks.splice(
       destination.index,
       0,
@@ -85,7 +74,6 @@ function Schedule() {
         })
       }
     }
-    // console.log('destinationGroup', destinationGroup.tasks)
     const newDayList = data.map((column) => {
       if (column.day === source.day) {
         return {
@@ -103,8 +91,6 @@ function Schedule() {
     })
 
     setData((prev) => {
-      // console.log('prev', prev)
-      // console.log('daylist', newDayList)
       return newDayList
     })
   }
