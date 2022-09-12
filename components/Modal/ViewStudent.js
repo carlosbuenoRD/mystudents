@@ -138,13 +138,13 @@ function ViewStudent({ show, onClose, student }) {
                   setEdit(false)
                   setState()
                 }}
-                className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-1/2 h-14rounded-md mr-2'
+                className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-1/2 h-14 rounded-md mr-2'
               >
                 Cancelar
               </button>
               <button
                 onClick={() => setConfirmation(true)}
-                className='border-2 bg-blue-300/80 hover:bg-blue-300 -mb-2  transition-all w-1/2 h-14 font-medium tracking-widest rounded-md mr-2'
+                className='border-2 bg-blue-300/80 hover:bg-blue-300 -mb-2  transition-all w-1/2 h-14 font-medium tracking-widest rounded-md'
               >
                 Actualizar
               </button>

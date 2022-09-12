@@ -49,12 +49,6 @@ const studentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'classroom',
   },
-  califications: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'califications',
-    },
-  ],
 })
 
 export const Student =

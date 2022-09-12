@@ -81,13 +81,13 @@ function CreateStudent({ show, onClose, classroom }) {
         <div className='modal_card__footer'>
           <button
             onClick={onClose}
-            className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-full h-14 rounded-md'
+            className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-full h-14 rounded-md mr-2'
           >
             Cancelar
           </button>
           <button
             onClick={handleCreateStudent}
-            className='border-2 bg-green-300/80 hover:bg-green-300 -mb-2  transition-all w-full h-14 font-medium tracking-widest rounded-md mr-2'
+            className='border-2 bg-green-300/80 hover:bg-green-300 -mb-2  transition-all w-full h-14 font-medium tracking-widest rounded-md'
           >
             Agregar
           </button>
