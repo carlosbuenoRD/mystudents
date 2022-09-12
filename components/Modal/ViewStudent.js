@@ -116,7 +116,7 @@ function ViewStudent({ show, onClose, student }) {
             <div className='text-center my-4'>
               <h2 className='text-2xl'>Calificaciones</h2>
               <div className='grid grid-cols-2 sm:grid-cols-4 gap-5 mt-4'>
-                {calification.map((cal) => (
+                {calification?.map((cal) => (
                   <div
                     key={cal._id}
                     className={`border-2 p-1 ${
