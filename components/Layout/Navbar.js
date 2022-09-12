@@ -101,12 +101,9 @@ function Navbar() {
             <ul className='settings_options absolute text-lg font-mono text-start overflow-hidden -left-32 rounded-md bg-white shadow-md h-0 '>
               <li
                 onClick={() => setChangePassword(true)}
-                className='p-2 border hover:border-2 transition-all cursor-pointer border-orange-300 rounded-md mb-1'
+                className='p-2 tracking-widest border hover:border-2 transition-all cursor-pointer border-orange-300 rounded-md'
               >
                 Contraseña
-              </li>
-              <li className='p-2 border hover:border-2 transition-all cursor-pointer border-orange-300 rounded-md'>
-                Calificaciones
               </li>
             </ul>
           </div>

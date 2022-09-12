@@ -127,57 +127,12 @@ export const initialData = [
   },
 ]
 
-// export const initialData = {
-//   tasks: {
-//     'task-1': { id: 'task-1', content: 'Take out the garbage' },
-//     'task-2': { id: 'task-2', content: 'Watch my favorite show' },
-//     'task-3': { id: 'task-3', content: 'Charge my phone' },
-//     'task-4': { id: 'task-4', content: 'Cook dinner' },
-//   },
-//   days: {
-//     'day-1': {
-//       id: 'day-1',
-//       title: 'To do',
-//       taskIds: ['task-1', 'task-2', 'task-3', 'task-4'],
-//     },
-//     'day-2': {
-//       id: 'day-2',
-//       title: 'In progress',
-//       taskIds: [],
-//     },
-//     'day-3': {
-//       id: 'day-3',
-//       title: 'Done',
-//       taskIds: [],
-//     },
-//     'day-4': {
-//       id: 'day-4',
-//       title: 'In progress',
-//       taskIds: [],
-//     },
-//     'day-5': {
-//       id: 'day-5',
-//       title: 'Done',
-//       taskIds: [],
-//     },
-//   },
-//   // Facilitate reordering of the columns
-//   dayOrder: ['day-1', 'day-2', 'day-3', 'day-4', 'day-5'],
-// }
-
-export const schedule = [
-  ['Español', '', 'Naturales', '', ''],
-  ['Español', 'Sociales', '', '', 'Matematicas'],
-  ['p', 'p', 'Naturales', 'p', 'p'],
-  ['p', 'p', 'p', 'p', 'p'],
-  ['p', 'p', 'p', 'p', 'p'],
-  ['p', 'p', 'p', 'p', 'p'],
-  ['p', 'p', 'p', 'p', 'p'],
-  ['p', 'p', 'p', 'p', 'p'],
+export const times = [
+  '8:00',
+  '8:45',
+  '9:30',
+  '10:15',
+  '11:00',
+  '11:45',
+  '12:30',
 ]
-
-// const monday = [0, 5, 10, 15, 20, 25, 30, 35]
-// const tuesday = [1, 6, 11, 16, 21, 26, 31, 36]
-// const wednesday = [2, 7, 12, 17, 22, 27, 32, 37]
-// const thursday = [3, 8, 13, 18, 23, 28, 33, 38]
-// const friday = [4, 9, 14, 19, 24, 29, 34, 39]
