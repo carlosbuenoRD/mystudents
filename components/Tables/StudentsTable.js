@@ -94,7 +94,7 @@ function StudentsTable({ students }) {
         onClose={() => setConfirmation(false)}
         onConfirm={handleDeleteStudent}
         success={false}
-        text='Estas seguro de eliminar al estudiantes?'
+        text='Estas seguro de eliminar al estudiante?'
       />
     </div>
   )

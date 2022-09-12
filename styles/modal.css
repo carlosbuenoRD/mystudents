@@ -16,6 +16,10 @@
   padding: 10px 12px;
   border-radius: 12px;
   min-width: 330px;
+  @apply
+  w-[90vw]
+  md:w-fit
+  
 }
 
 .modal_card__header {

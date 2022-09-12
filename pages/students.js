@@ -173,7 +173,7 @@ function Students() {
       <Confirmation
         show={confirmation}
         onClose={() => setConfirmation(false)}
-        text={'Estas seguro de eliminar el curso'}
+        text={'Estas seguro de eliminar el curso?'}
         onConfirm={handleDeleteClassroom}
       />
     </Layout>

@@ -19,8 +19,10 @@ function Confirmation({ show, onClose, success, text, onConfirm }) {
   const content = show ? (
     <div className={'modal_overlay'}>
       <div className='modal_card'>
-        <div className='modal_card__body p-6'>
-          <h1 className='text-2xl text-slate-700'>{text}</h1>
+        <div className='modal_card__body p-3 lg:p-4 xl:p-6'>
+          <h1 className=' text-center text-lg lg:text-xl xl:text-2xl text-slate-700'>
+            {text}
+          </h1>
         </div>
         <div className='modal_card__footer'>
           <button
