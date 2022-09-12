@@ -23,6 +23,7 @@ function CreateClassroom({ show, onClose }) {
         return
       }
       await createClassroom({ name })
+      setName('')
       toast.success('Nuevo curso agregado!')
       onClose()
     } catch (error) {
@@ -59,16 +60,16 @@ function CreateClassroom({ show, onClose }) {
         </div>
         <div className='modal_card__footer'>
           <button
-            onClick={handleCreateClassroom}
-            className='border-2 bg-green-300/80 hover:bg-green-300 -mb-2  transition-all w-full h-14 font-medium tracking-widest rounded-md mr-2'
-          >
-            Agregar
-          </button>
-          <button
             onClick={onClose}
             className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-full h-14 rounded-md'
           >
             Cancelar
+          </button>
+          <button
+            onClick={handleCreateClassroom}
+            className='border-2 bg-green-300/80 hover:bg-green-300 -mb-2  transition-all w-full h-14 font-medium tracking-widest rounded-md mr-2'
+          >
+            Agregar
           </button>
         </div>
       </div>

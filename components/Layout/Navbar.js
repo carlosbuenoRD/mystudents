@@ -103,7 +103,7 @@ function Navbar() {
             >
               <FiSettings size={30} />
             </button>
-            <ul className='settings_options absolute text-lg font-mono text-start overflow-hidden -left-32 rounded-md bg-white shadow-md h-0 '>
+            <ul className='settings_options z-50 absolute text-lg font-mono text-start overflow-hidden -left-32 rounded-md bg-white shadow-md h-0 '>
               <li
                 onClick={() => setChangePassword(true)}
                 className='p-2 tracking-widest border hover:border-2 transition-all cursor-pointer border-orange-300 rounded-md'

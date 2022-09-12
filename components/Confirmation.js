@@ -24,6 +24,12 @@ function Confirmation({ show, onClose, success, text, onConfirm }) {
         </div>
         <div className='modal_card__footer'>
           <button
+            onClick={onClose}
+            className='border-2 w-1/2 py-1 h-14 rounded-md mr-2'
+          >
+            Cancelar
+          </button>
+          <button
             onClick={handleConfirm}
             className={`border-2 w-1/2 py-1 h-14 rounded-md mr-2 ${
               success
@@ -32,12 +38,6 @@ function Confirmation({ show, onClose, success, text, onConfirm }) {
             }`}
           >
             Completar
-          </button>
-          <button
-            onClick={onClose}
-            className='border-2 w-1/2 py-1 h-14 rounded-md mr-2'
-          >
-            Cancelar
           </button>
         </div>
       </div>

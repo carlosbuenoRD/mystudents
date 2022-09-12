@@ -26,11 +26,19 @@ function ChangePassword({ show, onClose }) {
         return
       }
       await updatePassword({ oldPassword, newPassword, answer })
+      clearState()
       toast.success('Contraseña actualizada!')
       onClose()
     } catch (error) {
       toast.error(error.response.data || 'Hubo un problema!')
     }
+  }
+
+  const clearState = () => {
+    setAnswer('')
+    setNewPassword('')
+    setOldPassword('')
+    setQuestion('')
   }
 
   const content = show ? (
@@ -96,16 +104,16 @@ function ChangePassword({ show, onClose }) {
         </div>
         <div className='modal_card__footer'>
           <button
-            onClick={handleUpdatePassword}
-            className='border-2 bg-blue-300/80 hover:bg-blue-300 -mb-2  transition-all w-full h-14 font-medium tracking-widest rounded-md mr-2'
-          >
-            Actualizar
-          </button>
-          <button
             onClick={onClose}
             className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-full h-14 rounded-md'
           >
             Cancelar
+          </button>
+          <button
+            onClick={handleUpdatePassword}
+            className='border-2 bg-blue-300/80 hover:bg-blue-300 -mb-2  transition-all w-full h-14 font-medium tracking-widest rounded-md mr-2'
+          >
+            Actualizar
           </button>
         </div>
       </div>

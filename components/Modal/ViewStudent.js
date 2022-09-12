@@ -134,12 +134,6 @@ function ViewStudent({ show, onClose, student }) {
           {edit ? (
             <>
               <button
-                onClick={() => setConfirmation(true)}
-                className='border-2 bg-blue-300/80 hover:bg-blue-300 -mb-2  transition-all w-1/2 h-14 font-medium tracking-widest rounded-md mr-2'
-              >
-                Actualizar
-              </button>
-              <button
                 onClick={() => {
                   setEdit(false)
                   setState()
@@ -147,6 +141,12 @@ function ViewStudent({ show, onClose, student }) {
                 className='border-2 bg-red-300/80 hover:bg-red-300 -mb-2  transition-all w-1/2 h-14rounded-md mr-2'
               >
                 Cancelar
+              </button>
+              <button
+                onClick={() => setConfirmation(true)}
+                className='border-2 bg-blue-300/80 hover:bg-blue-300 -mb-2  transition-all w-1/2 h-14 font-medium tracking-widest rounded-md mr-2'
+              >
+                Actualizar
               </button>
             </>
           ) : (
