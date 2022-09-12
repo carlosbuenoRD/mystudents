@@ -23,10 +23,7 @@ function Item({ clase, index }) {
           {...provided.draggableProps}
         >
           {clase.subject && (
-            <TbTrash
-              onClick={() => console.log(clase)}
-              className='absolute top-2 right-2'
-            />
+            <TbTrash className='hidden absolute top-2 right-2' />
           )}
           {clase.subject}
         </div>
