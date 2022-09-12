@@ -8,11 +8,13 @@ import getLiteral from '@utils/getLiteral'
 import { AiOutlineClose } from 'react-icons/ai'
 import Confirmation from '@components/Confirmation'
 import Link from 'next/link'
+import Loading from '@components/Loading'
 
 function ViewStudent({ show, onClose, student }) {
   const [isBrowser, setIsBrowser] = useState(false)
   const [edit, setEdit] = useState(false)
   const [confirmation, setConfirmation] = useState(false)
+  const [loadingCalification, setLoadingCalification] = useState(false)
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
   const [classroom, setClassRoom] = useState('')
@@ -23,8 +25,7 @@ function ViewStudent({ show, onClose, student }) {
   useEffect(() => {
     setIsBrowser(true)
     if (student) {
-      getOneGrade(student._id)
-      setState()
+      getCalification()
     }
   }, [student])
 
@@ -32,6 +33,17 @@ function ViewStudent({ show, onClose, student }) {
     setClassRoom(student.classroom)
     setName(student.name)
     setLastname(student.lastname)
+  }
+
+  const getCalification = async () => {
+    try {
+      setLoadingCalification(true)
+      await getOneGrade(student._id)
+      setLoadingCalification(false)
+      setState()
+    } catch (error) {
+      toast.error('Hubo un error!')
+    }
   }
 
   const handleUpdateStudent = async () => {
@@ -45,7 +57,9 @@ function ViewStudent({ show, onClose, student }) {
       toast.info('Estudiante Actualizado!')
       setEdit(false)
       onClose()
-    } catch (error) {}
+    } catch (error) {
+      toast.error('Hubo un problema!')
+    }
   }
 
   const content = show ? (
@@ -96,34 +110,32 @@ function ViewStudent({ show, onClose, student }) {
             </div>
           </form>
 
-          {calification && (
+          {loadingCalification ? (
+            <Loading />
+          ) : (
             <div className='text-center my-4'>
               <h2 className='text-2xl'>Calificaciones</h2>
               <div className='grid grid-cols-2 sm:grid-cols-4 gap-5 mt-4'>
-                <div className='border-2 p-1 border-red-400'>
-                  <h1 className='font-medium font-mono text-xl uppercase'>
-                    {getLiteral(calification[0])}
-                  </h1>
-                  <p>Español</p>
-                </div>
-                <div className='border-2 p-1 border-yellow-400'>
-                  <h1 className='font-medium font-mono text-xl uppercase'>
-                    {getLiteral(calification[1])}
-                  </h1>
-                  <p>Sociales</p>
-                </div>
-                <div className='border-2 p-1 border-blue-400'>
-                  <h1 className='font-medium font-mono text-xl uppercase'>
-                    {getLiteral(calification[2])}
-                  </h1>
-                  <p>Matematicas</p>
-                </div>
-                <div className='border-2 p-1 border-green-400'>
-                  <h1 className='font-medium font-mono text-xl uppercase'>
-                    {getLiteral(calification[3])}
-                  </h1>
-                  <p>Naturales</p>
-                </div>
+                {calification.map((cal) => (
+                  <div
+                    className={`border-2 p-1 ${
+                      cal.subject.includes('ñol')
+                        ? 'border-red-300'
+                        : cal.subject.includes('Soci')
+                        ? 'border-yellow-300'
+                        : cal.subject.includes('ticas')
+                        ? 'border-blue-300'
+                        : cal.subject.includes('Natu')
+                        ? 'border-green-300'
+                        : ''
+                    }`}
+                  >
+                    <h1 className='font-medium font-mono text-xl uppercase'>
+                      {getLiteral(cal)}
+                    </h1>
+                    <p>{cal.subject.split(' ')[1] || cal.subject}</p>
+                  </div>
+                ))}
               </div>
             </div>
           )}
