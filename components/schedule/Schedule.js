@@ -100,7 +100,7 @@ function Schedule() {
       <div className='grid grid-cols-5 relative'>
         <div className='absolute h-full grid font-mono font-medium place-items-center w-fit -left-20'>
           {times.map((time) => (
-            <p>{time} AM</p>
+            <p key={time}>{time} AM</p>
           ))}
         </div>
         {data.map((day) => {
