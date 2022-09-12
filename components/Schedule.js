@@ -89,7 +89,7 @@ function ScheduleContainer({ children }) {
         <BsPhone className='flip' size={40} />
         <TbArrowAutofitContent size={30} />
         {!window.screen.orientation
-          ? 'No esta disponible.'
+          ? 'No disponible en este dispositivo.'
           : 'Gira la pantalla'}
       </div>
     </>
